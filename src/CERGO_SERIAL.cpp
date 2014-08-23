@@ -56,7 +56,7 @@ bool CERGO_SERIAL::serial_init(int baud)
 
         tio.c_lflag=0;
         tio.c_cc[VMIN]=5;
-        tio.c_cc[VTIME]=2;
+        tio.c_cc[VTIME]=6;
 
         tty_fd=open(portName, O_RDWR |O_NONBLOCK);
         if (baud == 9600)
