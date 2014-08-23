@@ -51,11 +51,15 @@
 int main(int argc, char *argv[])
 {
     int DEBUG_LEVEL = 1;
-    if(argc == 2)
+    int V_TIME  = 5;
+    if(argc >= 2)
     {
       DEBUG_LEVEL = atoi(argv[1]);
+      if(argc == 3)
+      {
+        V_TIME = atoi(argv[2]);
+      }
     }
-    int V_TIME  = 5;
     CLog * Log= new CLog; //inits the log
     CERGO_SERIAL Serial(DEBUG_LEVEL,V_TIME) ; // inits the Serial class
     CERGO_GPS GPS(DEBUG_LEVEL) ; // inits the GPS CLASS
@@ -114,9 +118,6 @@ int main(int argc, char *argv[])
                   }
                   else if(data_int == 2)
                   {
-                      V_TIME++;
-                      Log->add("vtime changed to %d",V_TIME);
-                      CERGO_SERIAL Serial(DEBUG_LEVEL,V_TIME) ;
                       if(DEBUG_LEVEL >=3)
                       {
                           printf("Bad data!");
