@@ -55,8 +55,8 @@ bool CERGO_SERIAL::serial_init(int baud)
         tio.c_cflag &= ~CSTOPB;// one stop bit
 
         tio.c_lflag=0;
-        tio.c_cc[VMIN]=30;
-        tio.c_cc[VTIME]=5;
+        tio.c_cc[VMIN]=5;
+        tio.c_cc[VTIME]=2;
 
         tty_fd=open(portName, O_RDWR |O_NONBLOCK);
         if (baud == 9600)
@@ -360,7 +360,7 @@ bool CERGO_SERIAL::getUBX_ACK(int *MSG)
 
 
     }
-
+
 
 
 
