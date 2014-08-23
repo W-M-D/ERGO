@@ -109,33 +109,33 @@ int main(int argc, char *argv[])
                              printf("0x%X",test_list.front());
                             test_list.pop_front();
                         }
-                        printf("/n");
+                        printf("\n");
                     }
                   }
                   else if(data_int == 2)
                   {
                       if(DEBUG_LEVEL >=3)
                       {
-                          printf("Good data!");
+                          printf("Bad data!");
                           while(!test_list.empty())
                           {
                              printf("0x%X",test_list.front());
                             test_list.pop_front();
                         }
-                        printf("/n");
+                        printf("\n");
                     }
                   }
                   else if (data_int == 3)
                   {
                       if(DEBUG_LEVEL >=3)
                       {
-                          printf("Good data!");
+                          printf("Bad checksum!");
                           while(!test_list.empty())
                           {
                              printf("0x%X",test_list.front());
                             test_list.pop_front();
                         }
-                        printf("/n");
+                        printf("\n");
                     }
                   }
         }
