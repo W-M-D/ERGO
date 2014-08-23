@@ -25,7 +25,7 @@ public:
     ///**********************************///
     ///COMS
     int Read_data(std::forward_list <uint8_t> &); // takes in a data list from the serial function then tests and parses the data.
-    bool ubx_checksum(std::forward_list <uint8_t> &);//adds the current UBLOX DATA to the checksums described here http://www.u-blox.com/images/downloads/Product_Docs/u-blox6_ReceiverDescriptionProtocolSpec_%28GPS.G6-SW-10018%29.pdf
+    int ubx_checksum(std::forward_list <uint8_t> &);//adds the current UBLOX DATA to the checksums described here http://www.u-blox.com/images/downloads/Product_Docs/u-blox6_ReceiverDescriptionProtocolSpec_%28GPS.G6-SW-10018%29.pdf
     void sendUBX(int *MSG, int len); // sends message to UBLOX ???
     bool getUBX_ACK(int *MSG);
     ///**********************************///

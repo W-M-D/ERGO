@@ -5,7 +5,7 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <iostream>
-#include <CERGO_SERIAL.h>
+#include "CERGO_SERIAL.h"
 static const char* portName = "/dev/ttyAMA0";
 
 CERGO_SERIAL::CERGO_SERIAL(int debug_level)

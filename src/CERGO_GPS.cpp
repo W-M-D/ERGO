@@ -65,7 +65,7 @@ int CERGO_GPS::Read_data(std::forward_list<uint8_t> & data_list )
     return 0;
 }
 
-bool CERGO_GPS::ubx_checksum(std::forward_list <uint8_t> & data_list)
+int CERGO_GPS::ubx_checksum(std::forward_list <uint8_t> & data_list)
 {
     uint8_t ck_a = 0;
     uint8_t ck_b = 0;
