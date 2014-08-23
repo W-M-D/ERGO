@@ -1,0 +1,5 @@
+ergo (0.0-1) unstable; urgency=low
+
+  * Initial release (Closes: #nnnn)  <nnnn is the bug number of your ITP>
+
+ -- Matthew Weger (ERGO key) <matthew.d.weger@gmail.com>  Wed, 20 Aug 2014 16:38:21 -0400

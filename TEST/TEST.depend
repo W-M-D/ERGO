@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1408757815 source:/home/neophobia/projects/ERGO/ergo-0.0-1/TEST/main.cpp
+	<iostream>
+	<forward_list>
+
