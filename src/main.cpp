@@ -40,6 +40,7 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <unistd.h>
+#include <iomanip>
 #include "CLog.h"
 #include "CERGO_SERIAL.h"
 #include "CERGO_GPS.h"
@@ -105,7 +106,7 @@ int main(int argc, char *argv[])
                           Log-> add("Good data!");
                           while(!test_list.empty())
                           {
-                             test_string << std::hex << test_list.front();
+                             test_string << "0x" << std::noshowbase << std::hex << std::setw(2) << test_list.front();
                             test_list.pop_front();
                         }
                           Log->add("%s\n",test_string.str().c_str());
@@ -118,7 +119,7 @@ int main(int argc, char *argv[])
                         Log-> add("Bad data!");
                         while(!test_list.empty())
                         {
-                             test_string << std::hex << test_list.front();
+                            test_string << "0x" << std::noshowbase << std::hex << std::setw(2) << test_list.front();
                             test_list.pop_front();
                         }
                           Log->add("%s\n",test_string.str().c_str());
@@ -131,7 +132,7 @@ int main(int argc, char *argv[])
                         Log->add("Bad checksum!");
                         while(!test_list.empty())
                         {
-                             test_string << std::hex << test_list.front();
+                            test_string << "0x" << std::noshowbase << std::hex << std::setw(2) << test_list.front();
                             test_list.pop_front();
                         }
                           Log->add("%s\n",test_string.str().c_str());
