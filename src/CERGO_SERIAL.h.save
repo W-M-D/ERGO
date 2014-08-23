@@ -21,7 +21,7 @@ class CERGO_SERIAL
 {
 public:
 
-    CERGO_SERIAL(int,int);
+    CERGO_SERIAL(int);
     bool  serial_init(int);
     void serial_setup(int);
     bool getUBX_ACK(int *);
