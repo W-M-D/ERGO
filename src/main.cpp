@@ -103,7 +103,7 @@ int main(int argc, char *argv[])
                       Serial.setval_gpio(0,18);
                       if(DEBUG_LEVEL >=3)
                       {
-                          Log-> add("Good data!");
+                          printf("Good data!");
                           while(!test_list.empty())
                           {
                              printf("0x%X",test_list.front());
@@ -116,7 +116,7 @@ int main(int argc, char *argv[])
                   {
                       if(DEBUG_LEVEL >=3)
                       {
-                          Log-> add("Good data!");
+                          printf("Good data!");
                           while(!test_list.empty())
                           {
                              printf("0x%X",test_list.front());
@@ -129,7 +129,7 @@ int main(int argc, char *argv[])
                   {
                       if(DEBUG_LEVEL >=3)
                       {
-                          Log-> add("Good data!");
+                          printf("Good data!");
                           while(!test_list.empty())
                           {
                              printf("0x%X",test_list.front());
