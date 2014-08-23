@@ -109,7 +109,7 @@ int main(int argc, char *argv[])
                              printf("0x%X ",test_list.front());
                             test_list.pop_front();
                         }
-                        printf("\n");
+                        printf("\n\n");
                     }
                   }
                   else if(data_int == 2)
@@ -122,7 +122,7 @@ int main(int argc, char *argv[])
                              printf("0x%X ",test_list.front());
                             test_list.pop_front();
                         }
-                        printf("\n");
+                        printf("\n\n");
                     }
                   }
                   else if (data_int == 3)
@@ -135,7 +135,7 @@ int main(int argc, char *argv[])
                              printf("0x%X ",test_list.front());
                             test_list.pop_front();
                         }
-                        printf("\n");
+                        printf("\n\n");
                     }
                   }
         }
