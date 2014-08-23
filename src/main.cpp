@@ -106,7 +106,7 @@ int main(int argc, char *argv[])
                           printf("Good data!");
                           while(!test_list.empty())
                           {
-                             printf("0x%X",test_list.front());
+                             printf("0x%X ",test_list.front());
                             test_list.pop_front();
                         }
                         printf("\n");
@@ -119,7 +119,7 @@ int main(int argc, char *argv[])
                           printf("Bad data!");
                           while(!test_list.empty())
                           {
-                             printf("0x%X",test_list.front());
+                             printf("0x%X ",test_list.front());
                             test_list.pop_front();
                         }
                         printf("\n");
@@ -132,7 +132,7 @@ int main(int argc, char *argv[])
                           printf("Bad checksum!");
                           while(!test_list.empty())
                           {
-                             printf("0x%X",test_list.front());
+                             printf("0x%X ",test_list.front());
                             test_list.pop_front();
                         }
                         printf("\n");
