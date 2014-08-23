@@ -101,41 +101,41 @@ int main(int argc, char *argv[])
                       Serial.setval_gpio(1,18);
                       Internet.manage_list(GPS.packatize());// adds the string from the packatize function in gps to the string list
                       Serial.setval_gpio(0,18);
-                      if(DEBUG_LEVEL >=2)
+                      if(DEBUG_LEVEL >=3)
                       {
                           Log-> add("Good data!");
                           while(!test_list.empty())
                           {
-                             test_string << "0x" << std::noshowbase << std::hex << std::setw(2) << test_list.front();
+                             printf("0x%X",test_list.front());
                             test_list.pop_front();
                         }
-                          Log->add("%s\n",test_string.str().c_str());
+                        printf("/n");
                     }
                   }
                   else if(data_int == 2)
                   {
-                    if(DEBUG_LEVEL >=2)
-                    {
-                        Log-> add("Bad data!");
-                        while(!test_list.empty())
-                        {
-                            test_string << "0x" << std::noshowbase << std::hex << std::setw(2) << test_list.front();
+                      if(DEBUG_LEVEL >=3)
+                      {
+                          Log-> add("Good data!");
+                          while(!test_list.empty())
+                          {
+                             printf("0x%X",test_list.front());
                             test_list.pop_front();
                         }
-                          Log->add("%s\n",test_string.str().c_str());
+                        printf("/n");
                     }
                   }
                   else if (data_int == 3)
                   {
-                    if(DEBUG_LEVEL >= 2)
-                    {
-                        Log->add("Bad checksum!");
-                        while(!test_list.empty())
-                        {
-                            test_string << "0x" << std::noshowbase << std::hex << std::setw(2) << test_list.front();
+                      if(DEBUG_LEVEL >=3)
+                      {
+                          Log-> add("Good data!");
+                          while(!test_list.empty())
+                          {
+                             printf("0x%X",test_list.front());
                             test_list.pop_front();
                         }
-                          Log->add("%s\n",test_string.str().c_str());
+                        printf("/n");
                     }
                   }
         }
