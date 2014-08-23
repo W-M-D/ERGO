@@ -39,29 +39,32 @@ PATH: /bin
 ## Core tests. ##
 ## ----------- ##
 
-configure:2364: checking for a BSD-compatible install
-configure:2432: result: /usr/bin/install -c
-configure:2443: checking whether build environment is sane
-configure:2493: result: yes
-configure:2634: checking for a thread-safe mkdir -p
-configure:2673: result: /bin/mkdir -p
-configure:2686: checking for gawk
-configure:2702: found /usr/bin/gawk
-configure:2713: result: gawk
-configure:2724: checking whether make sets $(MAKE)
-configure:2746: result: yes
-configure:2895: checking for g++
-configure:2911: found /usr/bin/g++
-configure:2922: result: g++
-configure:2949: checking for C++ compiler version
-configure:2958: g++ --version >&5
+configure:2374: checking for a BSD-compatible install
+configure:2442: result: /usr/bin/install -c
+configure:2453: checking whether build environment is sane
+configure:2508: result: yes
+configure:2546: WARNING: 'missing' script is too old or missing
+configure:2659: checking for a thread-safe mkdir -p
+configure:2698: result: /bin/mkdir -p
+configure:2705: checking for gawk
+configure:2721: found /usr/bin/gawk
+configure:2732: result: gawk
+configure:2743: checking whether make sets $(MAKE)
+configure:2765: result: yes
+configure:2794: checking whether make supports nested variables
+configure:2811: result: yes
+configure:3005: checking for g++
+configure:3021: found /usr/bin/g++
+configure:3032: result: g++
+configure:3059: checking for C++ compiler version
+configure:3068: g++ --version >&5
 g++ (Raspbian 4.8.3-5) 4.8.3
 Copyright (C) 2013 Free Software Foundation, Inc.
 This is free software; see the source for copying conditions.  There is NO
 warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
-configure:2969: $? = 0
-configure:2958: g++ -v >&5
+configure:3079: $? = 0
+configure:3068: g++ -v >&5
 Using built-in specs.
 COLLECT_GCC=g++
 COLLECT_LTO_WRAPPER=/usr/lib/gcc/arm-linux-gnueabihf/4.8/lto-wrapper
@@ -69,58 +72,58 @@ Target: arm-linux-gnueabihf
 Configured with: ../src/configure -v --with-pkgversion='Raspbian 4.8.3-5' --with-bugurl=file:///usr/share/doc/gcc-4.8/README.Bugs --enable-languages=c,c++,java,go,d,fortran,objc,obj-c++ --prefix=/usr --program-suffix=-4.8 --enable-shared --enable-linker-build-id --libexecdir=/usr/lib --without-included-gettext --enable-threads=posix --with-gxx-include-dir=/usr/include/c++/4.8 --libdir=/usr/lib --enable-nls --with-sysroot=/ --enable-clocale=gnu --enable-libstdcxx-debug --enable-libstdcxx-time=yes --enable-gnu-unique-object --disable-libmudflap --disable-libitm --disable-libquadmath --enable-plugin --with-system-zlib --disable-browser-plugin --enable-java-awt=gtk --enable-gtk-cairo --with-java-home=/usr/lib/jvm/java-1.5.0-gcj-4.8-armhf/jre --enable-java-home --with-jvm-root-dir=/usr/lib/jvm/java-1.5.0-gcj-4.8-armhf --with-jvm-jar-dir=/usr/lib/jvm-exports/java-1.5.0-gcj-4.8-armhf --with-arch-directory=arm --with-ecj-jar=/usr/share/java/eclipse-ecj.jar --enable-objc-gc --enable-multiarch --disable-sjlj-exceptions --with-arch=armv6 --with-fpu=vfp --with-float=hard --enable-checking=release --build=arm-linux-gnueabihf --host=arm-linux-gnueabihf --target=arm-linux-gnueabihf
 Thread model: posix
 gcc version 4.8.3 (Raspbian 4.8.3-5) 
-configure:2969: $? = 0
-configure:2958: g++ -V >&5
+configure:3079: $? = 0
+configure:3068: g++ -V >&5
 g++: error: unrecognized command line option '-V'
 g++: fatal error: no input files
 compilation terminated.
-configure:2969: $? = 4
-configure:2958: g++ -qversion >&5
+configure:3079: $? = 4
+configure:3068: g++ -qversion >&5
 g++: error: unrecognized command line option '-qversion'
 g++: fatal error: no input files
 compilation terminated.
-configure:2969: $? = 4
-configure:2989: checking whether the C++ compiler works
-configure:3011: g++    conftest.cpp  >&5
-configure:3015: $? = 0
-configure:3063: result: yes
-configure:3066: checking for C++ compiler default output file name
-configure:3068: result: a.out
-configure:3074: checking for suffix of executables
-configure:3081: g++ -o conftest    conftest.cpp  >&5
-configure:3085: $? = 0
-configure:3107: result: 
-configure:3129: checking whether we are cross compiling
-configure:3137: g++ -o conftest    conftest.cpp  >&5
-configure:3141: $? = 0
-configure:3148: ./conftest
-configure:3152: $? = 0
-configure:3167: result: no
-configure:3172: checking for suffix of object files
-configure:3194: g++ -c   conftest.cpp >&5
-configure:3198: $? = 0
-configure:3219: result: o
-configure:3223: checking whether we are using the GNU C++ compiler
-configure:3242: g++ -c   conftest.cpp >&5
-configure:3242: $? = 0
-configure:3251: result: yes
-configure:3260: checking whether g++ accepts -g
-configure:3280: g++ -c -g  conftest.cpp >&5
-configure:3280: $? = 0
-configure:3321: result: yes
-configure:3355: checking for style of include used by make
-configure:3383: result: GNU
-configure:3409: checking dependency style of g++
-configure:3520: result: none
-configure:3546: checking how to run the C++ preprocessor
-configure:3573: g++ -E  conftest.cpp
-configure:3573: $? = 0
-configure:3587: g++ -E  conftest.cpp
+configure:3079: $? = 4
+configure:3099: checking whether the C++ compiler works
+configure:3121: g++    conftest.cpp  >&5
+configure:3125: $? = 0
+configure:3173: result: yes
+configure:3176: checking for C++ compiler default output file name
+configure:3178: result: a.out
+configure:3184: checking for suffix of executables
+configure:3191: g++ -o conftest    conftest.cpp  >&5
+configure:3195: $? = 0
+configure:3217: result: 
+configure:3239: checking whether we are cross compiling
+configure:3247: g++ -o conftest    conftest.cpp  >&5
+configure:3251: $? = 0
+configure:3258: ./conftest
+configure:3262: $? = 0
+configure:3277: result: no
+configure:3282: checking for suffix of object files
+configure:3304: g++ -c   conftest.cpp >&5
+configure:3308: $? = 0
+configure:3329: result: o
+configure:3333: checking whether we are using the GNU C++ compiler
+configure:3352: g++ -c   conftest.cpp >&5
+configure:3352: $? = 0
+configure:3361: result: yes
+configure:3370: checking whether g++ accepts -g
+configure:3390: g++ -c -g  conftest.cpp >&5
+configure:3390: $? = 0
+configure:3431: result: yes
+configure:3465: checking for style of include used by make
+configure:3493: result: GNU
+configure:3519: checking dependency style of g++
+configure:3630: result: none
+configure:3656: checking how to run the C++ preprocessor
+configure:3683: g++ -E  conftest.cpp
+configure:3683: $? = 0
+configure:3697: g++ -E  conftest.cpp
 conftest.cpp:11:28: fatal error: ac_nonexistent.h: No such file or directory
  #include <ac_nonexistent.h>
                             ^
 compilation terminated.
-configure:3587: $? = 1
+configure:3697: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME "ergo"
@@ -133,15 +136,15 @@ configure: failed program was:
 | #define VERSION "0.1"
 | /* end confdefs.h.  */
 | #include <ac_nonexistent.h>
-configure:3612: result: g++ -E
-configure:3632: g++ -E  conftest.cpp
-configure:3632: $? = 0
-configure:3646: g++ -E  conftest.cpp
+configure:3722: result: g++ -E
+configure:3742: g++ -E  conftest.cpp
+configure:3742: $? = 0
+configure:3756: g++ -E  conftest.cpp
 conftest.cpp:11:28: fatal error: ac_nonexistent.h: No such file or directory
  #include <ac_nonexistent.h>
                             ^
 compilation terminated.
-configure:3646: $? = 1
+configure:3756: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME "ergo"
@@ -154,95 +157,95 @@ configure: failed program was:
 | #define VERSION "0.1"
 | /* end confdefs.h.  */
 | #include <ac_nonexistent.h>
-configure:3675: checking for grep that handles long lines and -e
-configure:3733: result: /bin/grep
-configure:3738: checking for egrep
-configure:3800: result: /bin/grep -E
-configure:3805: checking for ANSI C header files
-configure:3825: g++ -c -g -O2 -std=c++0x  conftest.cpp >&5
-configure:3825: $? = 0
-configure:3898: g++ -o conftest -g -O2 -std=c++0x   conftest.cpp  >&5
-configure:3898: $? = 0
-configure:3898: ./conftest
-configure:3898: $? = 0
-configure:3909: result: yes
-configure:3922: checking for sys/types.h
-configure:3922: g++ -c -g -O2 -std=c++0x  conftest.cpp >&5
-configure:3922: $? = 0
-configure:3922: result: yes
-configure:3922: checking for sys/stat.h
-configure:3922: g++ -c -g -O2 -std=c++0x  conftest.cpp >&5
-configure:3922: $? = 0
-configure:3922: result: yes
-configure:3922: checking for stdlib.h
-configure:3922: g++ -c -g -O2 -std=c++0x  conftest.cpp >&5
-configure:3922: $? = 0
-configure:3922: result: yes
-configure:3922: checking for string.h
-configure:3922: g++ -c -g -O2 -std=c++0x  conftest.cpp >&5
-configure:3922: $? = 0
-configure:3922: result: yes
-configure:3922: checking for memory.h
-configure:3922: g++ -c -g -O2 -std=c++0x  conftest.cpp >&5
-configure:3922: $? = 0
-configure:3922: result: yes
-configure:3922: checking for strings.h
-configure:3922: g++ -c -g -O2 -std=c++0x  conftest.cpp >&5
-configure:3922: $? = 0
-configure:3922: result: yes
-configure:3922: checking for inttypes.h
-configure:3922: g++ -c -g -O2 -std=c++0x  conftest.cpp >&5
-configure:3922: $? = 0
-configure:3922: result: yes
-configure:3922: checking for stdint.h
-configure:3922: g++ -c -g -O2 -std=c++0x  conftest.cpp >&5
-configure:3922: $? = 0
-configure:3922: result: yes
-configure:3922: checking for unistd.h
-configure:3922: g++ -c -g -O2 -std=c++0x  conftest.cpp >&5
-configure:3922: $? = 0
-configure:3922: result: yes
-configure:3937: checking fcntl.h usability
-configure:3937: g++ -c -g -O2 -std=c++0x  conftest.cpp >&5
-configure:3937: $? = 0
-configure:3937: result: yes
-configure:3937: checking fcntl.h presence
-configure:3937: g++ -E  conftest.cpp
-configure:3937: $? = 0
-configure:3937: result: yes
-configure:3937: checking for fcntl.h
-configure:3937: result: yes
-configure:3937: checking for inttypes.h
-configure:3937: result: yes
-configure:3937: checking for stdint.h
-configure:3937: result: yes
-configure:3937: checking for stdlib.h
-configure:3937: result: yes
-configure:3937: checking for string.h
-configure:3937: result: yes
-configure:3937: checking termios.h usability
-configure:3937: g++ -c -g -O2 -std=c++0x  conftest.cpp >&5
-configure:3937: $? = 0
-configure:3937: result: yes
-configure:3937: checking termios.h presence
-configure:3937: g++ -E  conftest.cpp
-configure:3937: $? = 0
-configure:3937: result: yes
-configure:3937: checking for termios.h
-configure:3937: result: yes
-configure:3937: checking for unistd.h
-configure:3937: result: yes
-configure:3949: checking for stdbool.h that conforms to C99
-configure:4016: g++ -c -g -O2 -std=c++0x  conftest.cpp >&5
-configure:4016: $? = 0
-configure:4023: result: yes
-configure:4025: checking for _Bool
-configure:4025: g++ -c -g -O2 -std=c++0x  conftest.cpp >&5
+configure:3785: checking for grep that handles long lines and -e
+configure:3843: result: /bin/grep
+configure:3848: checking for egrep
+configure:3910: result: /bin/grep -E
+configure:3915: checking for ANSI C header files
+configure:3935: g++ -c -g -O2 -std=c++0x  conftest.cpp >&5
+configure:3935: $? = 0
+configure:4008: g++ -o conftest -g -O2 -std=c++0x   conftest.cpp  >&5
+configure:4008: $? = 0
+configure:4008: ./conftest
+configure:4008: $? = 0
+configure:4019: result: yes
+configure:4032: checking for sys/types.h
+configure:4032: g++ -c -g -O2 -std=c++0x  conftest.cpp >&5
+configure:4032: $? = 0
+configure:4032: result: yes
+configure:4032: checking for sys/stat.h
+configure:4032: g++ -c -g -O2 -std=c++0x  conftest.cpp >&5
+configure:4032: $? = 0
+configure:4032: result: yes
+configure:4032: checking for stdlib.h
+configure:4032: g++ -c -g -O2 -std=c++0x  conftest.cpp >&5
+configure:4032: $? = 0
+configure:4032: result: yes
+configure:4032: checking for string.h
+configure:4032: g++ -c -g -O2 -std=c++0x  conftest.cpp >&5
+configure:4032: $? = 0
+configure:4032: result: yes
+configure:4032: checking for memory.h
+configure:4032: g++ -c -g -O2 -std=c++0x  conftest.cpp >&5
+configure:4032: $? = 0
+configure:4032: result: yes
+configure:4032: checking for strings.h
+configure:4032: g++ -c -g -O2 -std=c++0x  conftest.cpp >&5
+configure:4032: $? = 0
+configure:4032: result: yes
+configure:4032: checking for inttypes.h
+configure:4032: g++ -c -g -O2 -std=c++0x  conftest.cpp >&5
+configure:4032: $? = 0
+configure:4032: result: yes
+configure:4032: checking for stdint.h
+configure:4032: g++ -c -g -O2 -std=c++0x  conftest.cpp >&5
+configure:4032: $? = 0
+configure:4032: result: yes
+configure:4032: checking for unistd.h
+configure:4032: g++ -c -g -O2 -std=c++0x  conftest.cpp >&5
+configure:4032: $? = 0
+configure:4032: result: yes
+configure:4047: checking fcntl.h usability
+configure:4047: g++ -c -g -O2 -std=c++0x  conftest.cpp >&5
+configure:4047: $? = 0
+configure:4047: result: yes
+configure:4047: checking fcntl.h presence
+configure:4047: g++ -E  conftest.cpp
+configure:4047: $? = 0
+configure:4047: result: yes
+configure:4047: checking for fcntl.h
+configure:4047: result: yes
+configure:4047: checking for inttypes.h
+configure:4047: result: yes
+configure:4047: checking for stdint.h
+configure:4047: result: yes
+configure:4047: checking for stdlib.h
+configure:4047: result: yes
+configure:4047: checking for string.h
+configure:4047: result: yes
+configure:4047: checking termios.h usability
+configure:4047: g++ -c -g -O2 -std=c++0x  conftest.cpp >&5
+configure:4047: $? = 0
+configure:4047: result: yes
+configure:4047: checking termios.h presence
+configure:4047: g++ -E  conftest.cpp
+configure:4047: $? = 0
+configure:4047: result: yes
+configure:4047: checking for termios.h
+configure:4047: result: yes
+configure:4047: checking for unistd.h
+configure:4047: result: yes
+configure:4059: checking for stdbool.h that conforms to C99
+configure:4126: g++ -c -g -O2 -std=c++0x  conftest.cpp >&5
+configure:4126: $? = 0
+configure:4133: result: yes
+configure:4135: checking for _Bool
+configure:4135: g++ -c -g -O2 -std=c++0x  conftest.cpp >&5
 conftest.cpp: In function 'int main()':
 conftest.cpp:64:13: error: '_Bool' was not declared in this scope
  if (sizeof (_Bool))
              ^
-configure:4025: $? = 1
+configure:4135: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME "ergo"
@@ -312,11 +315,11 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:4025: result: no
-configure:4036: checking for int32_t
-configure:4036: g++ -c -g -O2 -std=c++0x  conftest.cpp >&5
-configure:4036: $? = 0
-configure:4036: g++ -c -g -O2 -std=c++0x  conftest.cpp >&5
+configure:4135: result: no
+configure:4146: checking for int32_t
+configure:4146: g++ -c -g -O2 -std=c++0x  conftest.cpp >&5
+configure:4146: $? = 0
+configure:4146: g++ -c -g -O2 -std=c++0x  conftest.cpp >&5
 conftest.cpp: In function 'int main()':
 conftest.cpp:66:55: warning: integer overflow in expression [-Woverflow]
     < (int32_t) (((((int32_t) 1 << N) << N) - 1) * 2 + 2))];
@@ -324,7 +327,7 @@ conftest.cpp:66:55: warning: integer overflow in expression [-Woverflow]
 conftest.cpp:66:58: error: size of array 'test_array' is negative
     < (int32_t) (((((int32_t) 1 << N) << N) - 1) * 2 + 2))];
                                                           ^
-configure:4036: $? = 1
+configure:4146: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME "ergo"
@@ -398,16 +401,16 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:4036: result: yes
-configure:4047: checking for size_t
-configure:4047: g++ -c -g -O2 -std=c++0x  conftest.cpp >&5
-configure:4047: $? = 0
-configure:4047: g++ -c -g -O2 -std=c++0x  conftest.cpp >&5
+configure:4146: result: yes
+configure:4157: checking for size_t
+configure:4157: g++ -c -g -O2 -std=c++0x  conftest.cpp >&5
+configure:4157: $? = 0
+configure:4157: g++ -c -g -O2 -std=c++0x  conftest.cpp >&5
 conftest.cpp: In function 'int main()':
 conftest.cpp:64:20: error: expected primary-expression before ')' token
  if (sizeof ((size_t)))
                     ^
-configure:4047: $? = 1
+configure:4157: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME "ergo"
@@ -477,16 +480,16 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:4047: result: yes
-configure:4058: checking for ssize_t
-configure:4058: g++ -c -g -O2 -std=c++0x  conftest.cpp >&5
-configure:4058: $? = 0
-configure:4058: g++ -c -g -O2 -std=c++0x  conftest.cpp >&5
+configure:4157: result: yes
+configure:4168: checking for ssize_t
+configure:4168: g++ -c -g -O2 -std=c++0x  conftest.cpp >&5
+configure:4168: $? = 0
+configure:4168: g++ -c -g -O2 -std=c++0x  conftest.cpp >&5
 conftest.cpp: In function 'int main()':
 conftest.cpp:64:21: error: expected primary-expression before ')' token
  if (sizeof ((ssize_t)))
                      ^
-configure:4058: $? = 1
+configure:4168: $? = 1
 configure: failed program was:
 | /* confdefs.h */
 | #define PACKAGE_NAME "ergo"
@@ -556,16 +559,18 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:4058: result: yes
-configure:4069: checking for uint8_t
-configure:4069: g++ -c -g -O2 -std=c++0x  conftest.cpp >&5
-configure:4069: $? = 0
-configure:4069: result: yes
-configure:4087: checking for memset
-configure:4087: g++ -o conftest -g -O2 -std=c++0x   conftest.cpp  >&5
-configure:4087: $? = 0
-configure:4087: result: yes
-configure:4229: creating ./config.status
+configure:4168: result: yes
+configure:4179: checking for uint8_t
+configure:4179: g++ -c -g -O2 -std=c++0x  conftest.cpp >&5
+configure:4179: $? = 0
+configure:4179: result: yes
+configure:4197: checking for memset
+configure:4197: g++ -o conftest -g -O2 -std=c++0x   conftest.cpp  >&5
+configure:4197: $? = 0
+configure:4197: result: yes
+configure:4318: checking that generated files are newer than configure
+configure:4324: result: done
+configure:4347: creating ./config.status
 
 ## ---------------------- ##
 ## Running config.status. ##
@@ -582,11 +587,11 @@ generated by GNU Autoconf 2.69.  Invocation command line was
 
 on raspberry-pi
 
-config.status:857: creating Makefile
-config.status:857: creating src/Makefile
-config.status:857: creating config.h
-config.status:1086: executing depfiles commands
-configure:5544: WARNING: unrecognized options: --disable-maintainer-mode
+config.status:861: creating Makefile
+config.status:861: creating src/Makefile
+config.status:861: creating config.h
+config.status:1090: executing depfiles commands
+configure:5660: WARNING: unrecognized options: --disable-maintainer-mode
 
 ## ---------------- ##
 ## Cache variables. ##
@@ -643,19 +648,24 @@ ac_cv_type__Bool=no
 ac_cv_type_size_t=yes
 ac_cv_type_ssize_t=yes
 am_cv_CXX_dependencies_compiler_type=none
+am_cv_make_support_nested_variables=yes
 
 ## ----------------- ##
 ## Output variables. ##
 ## ----------------- ##
 
-ACLOCAL='${SHELL} /root/ergo-0.0-1/missing --run aclocal-1.11'
+ACLOCAL='aclocal-1.14'
 AMDEPBACKSLASH=''
 AMDEP_FALSE=''
 AMDEP_TRUE='#'
 AMTAR='$${TAR-tar}'
-AUTOCONF='${SHELL} /root/ergo-0.0-1/missing --run autoconf'
-AUTOHEADER='${SHELL} /root/ergo-0.0-1/missing --run autoheader'
-AUTOMAKE='${SHELL} /root/ergo-0.0-1/missing --run automake-1.11'
+AM_BACKSLASH='\'
+AM_DEFAULT_V='$(AM_DEFAULT_VERBOSITY)'
+AM_DEFAULT_VERBOSITY='1'
+AM_V='$(V)'
+AUTOCONF='autoconf'
+AUTOHEADER='autoheader'
+AUTOMAKE='automake-1.14'
 AWK='gawk'
 CPPFLAGS=''
 CXX='g++'
@@ -679,7 +689,7 @@ LDFLAGS=''
 LIBOBJS=''
 LIBS=''
 LTLIBOBJS=''
-MAKEINFO='${SHELL} /root/ergo-0.0-1/missing --run makeinfo'
+MAKEINFO='makeinfo'
 MKDIR_P='/bin/mkdir -p'
 OBJEXT='o'
 PACKAGE='ergo'
@@ -723,7 +733,7 @@ libexecdir='${prefix}/lib/ergo'
 localedir='${datarootdir}/locale'
 localstatedir='/var'
 mandir='${prefix}/share/man'
-mkdir_p='/bin/mkdir -p'
+mkdir_p='$(MKDIR_P)'
 oldincludedir='/usr/include'
 pdfdir='${docdir}'
 prefix='/usr'
@@ -767,38 +777,3 @@ target_alias=''
 #define HAVE_MEMSET 1
 
 configure: exit 0
-
-## ---------------------- ##
-## Running config.status. ##
-## ---------------------- ##
-
-This file was extended by ergo config.status 0.1, which was
-generated by GNU Autoconf 2.69.  Invocation command line was
-
-  CONFIG_FILES    = 
-  CONFIG_HEADERS  = 
-  CONFIG_LINKS    = 
-  CONFIG_COMMANDS = 
-  $ ./config.status src/Makefile depfiles
-
-on raspberry-pi
-
-config.status:857: creating src/Makefile
-config.status:1086: executing depfiles commands
-
-## ---------------------- ##
-## Running config.status. ##
-## ---------------------- ##
-
-This file was extended by ergo config.status 0.1, which was
-generated by GNU Autoconf 2.69.  Invocation command line was
-
-  CONFIG_FILES    = 
-  CONFIG_HEADERS  = 
-  CONFIG_LINKS    = 
-  CONFIG_COMMANDS = 
-  $ ./config.status Makefile
-
-on raspberry-pi
-
-config.status:857: creating Makefile

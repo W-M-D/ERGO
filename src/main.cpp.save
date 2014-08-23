@@ -45,6 +45,7 @@
 #include "CERGO_GPS.h"
 #include "CERGO_INTERNET.h"
 
+void signal_callback_handler(int signum,CERGO_SERIAL&);
 
 
 int main(int argc, char *argv[])
@@ -58,6 +59,8 @@ int main(int argc, char *argv[])
     CLog * Log= new CLog; //inits the log
     CERGO_SERIAL Serial(DEBUG_LEVEL) ; // inits the Serial class
     CERGO_GPS GPS(DEBUG_LEVEL) ; // inits the GPS CLASS
+
+    signal(SIGINT,signal_callback_handler(Serial));
 
     uint8_t  data;// data storage/test variable
     std::forward_list <uint8_t> test_list;
@@ -160,3 +163,11 @@ int main(int argc, char *argv[])
     }
 }
 
+void signal_callback_handler(int signum,CERGO_SERIAL& Serial)
+{
+
+   // Cleanup and close up stuff here
+    Serial.~CERGO_SERIAL();
+   // Terminate program
+   exit(signum);
+}

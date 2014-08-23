@@ -2,7 +2,7 @@ Package: ergo
 Version: 0.0-1
 Architecture: armhf
 Maintainer: W-M-D <matthew.d.weger@gmail.com>
-Installed-Size: 74
+Installed-Size: 87
 Depends: libc6 (>= 2.4), libcurl3-nss (>= 7.23.1), libgcc1 (>= 1:4.4.0), libstdc++6 (>= 4.4.0)
 Section: X11
 Priority: extra
