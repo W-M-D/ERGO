@@ -8,13 +8,13 @@
 #include "CERGO_SERIAL.h"
 static const char* portName = "/dev/ttyAMA0";
 
-CERGO_SERIAL::CERGO_SERIAL(int debug_level)
+CERGO_SERIAL::CERGO_SERIAL(int debug_level, int V_TIME)
 {
     DEBUG_LEVEL = debug_level;
     if(DEBUG_LEVEL >= 1)
     {
           Log->add("serial port %d \n\n",tty_fd);
-    }
+    }    v_time = V_TIME;
     while(!serial_init(9600))
     {
         sleep(60);
@@ -56,7 +56,7 @@ bool CERGO_SERIAL::serial_init(int baud)
 
         tio.c_lflag=0;
         tio.c_cc[VMIN]=5;
-        tio.c_cc[VTIME]=6;
+        tio.c_cc[VTIME]=v_time;
 
         tty_fd=open(portName, O_RDWR |O_NONBLOCK);
         if (baud == 9600)
