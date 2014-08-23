@@ -20,11 +20,14 @@ set -e
 
 case "$1" in
     configure)
-	mv /boot/cmdline.txt /boot/cmdline.bak
-	sed  's/\S*\ttyAMA0\\S*//g' /boot/cmdline.bak > /boot/cmdline.txt
 
-	mv /etc/inittab /etc/inittab.bak
-	sed '/ttyAMA0/d' /etc/inittab.bak > /etc/inittab
+		echo "removing references of ttyAMA0 from /boot/cmdline.txt"
+		mv /boot/cmdline.txt /boot/cmdline.bak
+		sed  's/\S*\ttyAMA0\\S*//g' /boot/cmdline.bak > /boot/cmdline.txt
+		
+		echo "removing references of ttyAMA0 from /etc/inittab"
+		mv /etc/inittab /etc/inittab.bak
+		sed '/ttyAMA0/d' /etc/inittab.bak > /etc/inittab
 
     ;;
 
