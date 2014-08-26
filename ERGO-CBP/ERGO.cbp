@@ -32,7 +32,15 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
-		<Unit filename="main.cpp" />
+		<Unit filename="../src/CERGO_GPS.cpp" />
+		<Unit filename="../src/CERGO_GPS.h" />
+		<Unit filename="../src/CERGO_INTERNET.cpp" />
+		<Unit filename="../src/CERGO_INTERNET.h" />
+		<Unit filename="../src/CERGO_SERIAL.cpp" />
+		<Unit filename="../src/CERGO_SERIAL.h" />
+		<Unit filename="../src/CLog.cpp" />
+		<Unit filename="../src/CLog.h" />
+		<Unit filename="../src/main.cpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />
