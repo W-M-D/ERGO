@@ -12,8 +12,8 @@
  
 # Change the next 3 lines to suit where you install your script and what you want to call it
 DIR=/usr/sbin/
-DAEMON=$DIR/ERGO-ARM
-DAEMON_NAME=ERGO-ARM
+DAEMON=$DIR/ergo
+DAEMON_NAME=ERGO
  
 # Add any command line options for your daemon here
 DAEMON_OPTS=""
