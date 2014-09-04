@@ -274,7 +274,7 @@ int CERGO_GPS::parse_ubx_gps(std::deque<uint8_t> & data_list)
                 Altitude = join_4_bytes(data_list);  // elipsoid heigth mm
                 data_list.pop_front();//pop_fronts checksum a
                 data_list.pop_front();//pop_fronts checksum b
-                return false;
+                return 4;
                 break;
             case 0x03://ID NAV-STATUS
             break;
@@ -306,12 +306,9 @@ int CERGO_GPS::parse_ubx_gps(std::deque<uint8_t> & data_list)
            towSubMsF = join_4_bytes(data_list);
            accEst = join_4_bytes(data_list);
            checksum = join_2_bytes(data_list);
-          break;
-        }
         return 3;
+        }
     }
-
-    return 4;
 }
 
 ///******************************************************************///

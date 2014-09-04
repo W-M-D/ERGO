@@ -94,14 +94,14 @@ int main(int argc, char *argv[])
                 test_list = data_list;
             }
             data_int =GPS.Read_data(data_list);
-            if(data_int == 3)
+            if(data_int == 4)
             {
                 if(DEBUG_LEVEL >=2)
                 {
                     printf("POS DATA\n");
                 }
             }
-            else if( data_int == 4)//sends the serial data to be parsed
+            else if( data_int == 3)//sends the serial data to be parsed
             {
                 Serial.setval_gpio(1,18);
                 Internet.manage_list(GPS.packatize());// adds the string from the packatize function in gps to the string list
