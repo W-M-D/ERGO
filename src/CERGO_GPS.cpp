@@ -45,10 +45,10 @@ int CERGO_GPS::ubx_checksum(std::deque<uint8_t> & data_list)//returns 0 if bad c
 {
     uint8_t ck_a = 0;
     uint8_t ck_b = 0;
-    int UBX_length_hi;
+    int UBX_length_hi=0;
 
 
-    UBX_length_hi = data_list[5];
+    UBX_length_hi = data_list[4];
 
 
     for(uint8_t i = 0 ; i <  (UBX_length_hi + 4) ;i++)//preforms the checksum!
@@ -56,7 +56,6 @@ int CERGO_GPS::ubx_checksum(std::deque<uint8_t> & data_list)//returns 0 if bad c
             ck_a+= data_list.at(i+3);
             ck_b+=ck_a;
     }
-
     if(ck_a == data_list.at(UBX_length_hi + 7))//checks the checksum
     {
       if(ck_b == data_list.at(UBX_length_hi + 8))
