@@ -65,7 +65,6 @@ int main(int argc, char *argv[])
     CERGO_SERIAL Serial(DEBUG_LEVEL,V_TIME) ; // inits the Serial class
     CERGO_GPS GPS(DEBUG_LEVEL) ; // inits the GPS CLASS
 
-    uint8_t  data;// data storage/test variable
     std::deque <uint8_t> test_list;
 
     int counter = 0;
@@ -121,7 +120,7 @@ int main(int argc, char *argv[])
             {
                 if(DEBUG_LEVEL >=3)
                 {
-                    printf("Bad data!");
+                    printf("Not enough data!");
                     while(!test_list.empty())
                     {
                         printf("0x%X ",test_list.front());
@@ -129,6 +128,7 @@ int main(int argc, char *argv[])
                     }
                     printf("\n\n");
                 }
+                break;
             }
             else if (data_int == 0)
             {

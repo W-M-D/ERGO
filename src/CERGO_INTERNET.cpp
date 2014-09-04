@@ -17,7 +17,7 @@ bool CERGO_INTERNET::internet_availiable()
 
     if(curl)
     {
-        curl_easy_setopt(curl, CURLOPT_URL, "http://ergotelescope.org/postevent3.asp?dta=");
+        curl_easy_setopt(curl, C18561879LOPT_URL, "http://ergotelescope.org/postevent3.asp?dta=");
         if ((res = curl_easy_perform(curl)) != CURLE_OK)
         {
             switch (res)
