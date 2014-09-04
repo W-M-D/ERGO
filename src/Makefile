@@ -172,7 +172,7 @@ AWK = gawk
 CPPFLAGS = 
 CXX = g++
 CXXCPP = g++ -E
-CXXDEPMODE = depmode=none
+CXXDEPMODE = depmode=gcc3
 CXXFLAGS = -g -O2 -std=c++0x
 CYGPATH_W = echo
 DEFS = -DHAVE_CONFIG_H
@@ -207,10 +207,10 @@ SET_MAKE =
 SHELL = /bin/bash
 STRIP = 
 VERSION = 0.1
-abs_builddir = /root/ergo-0.0-1/src
-abs_srcdir = /root/ergo-0.0-1/src
-abs_top_builddir = /root/ergo-0.0-1
-abs_top_srcdir = /root/ergo-0.0-1
+abs_builddir = /home/neophobia/projects/ERGO/ergo/src
+abs_srcdir = /home/neophobia/projects/ERGO/ergo/src
+abs_top_builddir = /home/neophobia/projects/ERGO/ergo
+abs_top_srcdir = /home/neophobia/projects/ERGO/ergo
 ac_ct_CXX = g++
 am__include = include
 am__leading_dot = .
@@ -218,7 +218,7 @@ am__quote =
 am__tar = $${TAR-tar} chof - "$$tardir"
 am__untar = $${TAR-tar} xf -
 bindir = ${exec_prefix}/bin
-build_alias = arm-linux-gnueabihf
+build_alias = 
 builddir = .
 datadir = ${datarootdir}
 datarootdir = ${prefix}/share
@@ -228,23 +228,23 @@ exec_prefix = ${prefix}
 host_alias = 
 htmldir = ${docdir}
 includedir = ${prefix}/include
-infodir = ${prefix}/share/info
-install_sh = ${SHELL} /root/ergo-0.0-1/install-sh
+infodir = ${datarootdir}/info
+install_sh = ${SHELL} /home/neophobia/projects/ERGO/ergo/install-sh
 libdir = ${exec_prefix}/lib
-libexecdir = ${prefix}/lib/ergo
+libexecdir = ${exec_prefix}/libexec
 localedir = ${datarootdir}/locale
-localstatedir = /var
-mandir = ${prefix}/share/man
+localstatedir = ${prefix}/var
+mandir = ${datarootdir}/man
 mkdir_p = $(MKDIR_P)
 oldincludedir = /usr/include
 pdfdir = ${docdir}
-prefix = /usr
+prefix = /usr/local
 program_transform_name = s,x,x,
 psdir = ${docdir}
 sbindir = ${exec_prefix}/sbin
 sharedstatedir = ${prefix}/com
 srcdir = .
-sysconfdir = /etc
+sysconfdir = ${prefix}/etc
 target_alias = 
 top_build_prefix = ../
 top_builddir = ..
@@ -341,25 +341,25 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-#include ./$(DEPDIR)/CERGO_GPS.Po
-#include ./$(DEPDIR)/CERGO_INTERNET.Po
-#include ./$(DEPDIR)/CERGO_SERIAL.Po
-#include ./$(DEPDIR)/CLog.Po
-#include ./$(DEPDIR)/main.Po
+include ./$(DEPDIR)/CERGO_GPS.Po
+include ./$(DEPDIR)/CERGO_INTERNET.Po
+include ./$(DEPDIR)/CERGO_SERIAL.Po
+include ./$(DEPDIR)/CLog.Po
+include ./$(DEPDIR)/main.Po
 
 .cpp.o:
-#	$(AM_V_CXX)$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
-#	$(AM_V_at)$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Po
-#	$(AM_V_CXX)source='$<' object='$@' libtool=no 
-#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) 
-	$(AM_V_CXX)$(CXXCOMPILE) -c -o $@ $<
+	$(AM_V_CXX)$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
+	$(AM_V_at)$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Po
+#	$(AM_V_CXX)source='$<' object='$@' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
+#	$(AM_V_CXX_no)$(CXXCOMPILE) -c -o $@ $<
 
 .cpp.obj:
-#	$(AM_V_CXX)$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ `$(CYGPATH_W) '$<'`
-#	$(AM_V_at)$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Po
-#	$(AM_V_CXX)source='$<' object='$@' libtool=no 
-#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) 
-	$(AM_V_CXX)$(CXXCOMPILE) -c -o $@ `$(CYGPATH_W) '$<'`
+	$(AM_V_CXX)$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ `$(CYGPATH_W) '$<'`
+	$(AM_V_at)$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Po
+#	$(AM_V_CXX)source='$<' object='$@' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
+#	$(AM_V_CXX_no)$(CXXCOMPILE) -c -o $@ `$(CYGPATH_W) '$<'`
 
 ID: $(am__tagged_files)
 	$(am__define_uniq_tagged_files); mkid -fID $$unique

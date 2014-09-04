@@ -46,90 +46,40 @@ int CERGO_GPS::Read_data(std::deque<uint8_t> & data_list )
     return 0;
 }
 
-
-int CERGO_GPS::ubx_checksum(std::deque <uint8_t> & data_list)
+int CERGO_GPS::ubx_checksum(std::deque<uint8_t> & data_list)//returns 0 if bad checksum 1 if good checksum and 3 if list is not long enough...
 {
     uint8_t ck_a = 0;
     uint8_t ck_b = 0;
-    uint8_t UBX_length_hi = 0;
-    auto data_iterator = data_list.begin();//sets the data iterator to the beginging of the list
-    if(data_iterator != data_list.end())// moves one forward
+    int UBX_length_hi=0;
+    Log ->add("\ndata list size : %d\n UBX_length_hi : %d",data_list.size(),UBX_length_hi);
+    if(data_list.size()< 5)
     {
-            data_iterator++;
+      return 2;
     }
-    else
+    UBX_length_hi = data_list[4];
+    Log ->add("\n Take 2 \ndata list size : %d\n UBX_length_hi : %d",data_list.size(),UBX_length_hi);
+
+    if(data_list.size() < UBX_length_hi)
     {
       return 2;
     }
 
-    if(data_iterator != data_list.end())// moves one forward
-    {
-            data_iterator++;
-    }
-    else
-    {
-      return 2;
-    }
-
-    if(data_iterator != data_list.end())// moves one forward
-    {
-            data_iterator++;
-    }
-    else
-    {
-      return 2;
-    }
-
-    if(data_iterator != data_list.end())//moves one forward
-    {
-            data_iterator++;
-    }
-    else
-    {
-      return 2;
-    }
-
-    if(data_iterator != data_list.end())
-    {
-      UBX_length_hi = *data_iterator;// grabs the length
-    }
-    else
-    {
-      return 2;
-    }
-
-    data_iterator = data_list.begin();//resets the iterator
-    data_iterator += 2;
     for(uint8_t i = 0 ; i <  (UBX_length_hi + 4) ;i++)//preforms the checksum!
     {
-          if(data_iterator != data_list.end())
-          {
-            ck_a+=*data_iterator;
+            ck_a+= data_list.at(i+2);
             ck_b+=ck_a;
-            data_iterator++;
-          }
-          else
-          {
-            return 2;
-          }
     }
 
-    if(ck_a == *data_iterator)//checks the checksum
+    Log ->add("ck_a = %d check_a = %d \n ck_b = %d check_b = %d",ck_a,data_list.at(UBX_length_hi + 7), ck_b,data_list.at(UBX_length_hi + 8));
+    if(ck_a == data_list.at(UBX_length_hi + 7))//checks the checksum
     {
-      if(data_iterator != data_list.end())
+      if(ck_b == data_list.at(UBX_length_hi + 8))
       {
-        data_iterator++;
-      }
-      else
-      {
-        return 2;
-      }
-      if(ck_b == *data_iterator)
-      {
-        return true;
+        return 1;
       }
     }
-    return false;
+    data_list.pop_front();
+    return 0;
 }
 
 ///******************************************************************///
@@ -313,60 +263,86 @@ std::string CERGO_GPS::nanosecond_packatize(long  nS)
 ///******************************************************************///
 ///UBLOX FUCNTIONS
 
-int CERGO_GPS::parse_ubx_gps(std::deque<uint8_t> & data_list)
+int CERGO_GPS::ubx_checksum(std::forward_list <uint8_t> & data_list)
 {
-
-      if(data_list.front() == 0x01)//ubx class
-      {
-        data_list.pop_front();//removes the class
-        switch(data_list.front())//Checking the UBX ID
-        {
-            case 0x02: //ID NAV-POSLLH
-            data_list.erase (data_list.begin(),data_list.begin()+3);
-
-                Time = join_4_bytes(data_list); // ms Time of week
-                Longitude = join_4_bytes(data_list); // lon*10000000
-                Lattitude = join_4_bytes(data_list); // lat*10000000
-                Altitude = join_4_bytes(data_list);  // elipsoid heigth mm
-                data_list.pop_front();//pop_fronts checksum a
-                data_list.pop_front();//pop_fronts checksum b
-                return 4;
-                break;
-            case 0x03://ID NAV-STATUS
-            break;
-            case 0x06://ID NAV-SOL
-            break;
-            case 0x12:// ID NAV-VELNED
-            break;
-        }
-        //  UBX_class = 0x0D;
-    }
-    else if(data_list.front()==0x0D)//checks the class
+    uint8_t ck_a = 0;
+    uint8_t ck_b = 0;
+    uint8_t UBX_length_hi = 0;
+    auto data_iterator = data_list.begin();//sets the data iterator to the beginging of the list
+    if(data_iterator != data_list.end())// moves one forward
     {
-          //UBX_id = 0x03;
-        data_list.pop_front();
-        switch(data_list.front())//Checking the UBX ID
-        {
-          case 0x03: //ID TIM-TM2
-            data_list.erase (data_list.begin(),data_list.begin()+3);
-
-
-          ch = one_byte(data_list);//marker channel 0 or 1
-          flags = one_byte(data_list);//Bitmask
-           counter = join_2_bytes(data_list);
-           wnR = join_2_bytes(data_list);
-           wnF = join_2_bytes(data_list);
-           towMsR = join_4_bytes(data_list);
-           towSubMsR = join_4_bytes(data_list);
-           towMsF = join_4_bytes(data_list);
-           towSubMsF = join_4_bytes(data_list);
-           accEst = join_4_bytes(data_list);
-           checksum = join_2_bytes(data_list);
-        return 3;
-        }
+            data_iterator++;
     }
-}
+    else
+    {
+      return 2;
+    }
+    
+    if(data_iterator != data_list.end())// moves one forward
+    {
+            data_iterator++;
+    }
+    else
+    {
+      return 2;
+    }
+        if(data_iterator != data_list.end())// moves one forward
+    {
+            data_iterator++;
+    }
+    else
+    {
+      return 2;
+    }
+    if(data_iterator != data_list.end())//moves one forward
+    {
+            data_iterator++;
+    }
+    else
+    {
+      return 2;
+    }
 
+    if(data_iterator != data_list.end())
+    {
+      UBX_length_hi = *data_iterator;// grabs the length
+    }
+    else
+    {
+      return 2;
+    }
+    data_iterator = data_list.begin();//resets the iterator
+    for(uint8_t i = 0 ; i <  (UBX_length_hi + 4) ;i++)//preforms the checksum!
+    {
+          if(data_iterator != data_list.end())
+          {
+            ck_a+=*data_iterator;
+            ck_b+=ck_a;
+            data_iterator++;
+          }
+          else
+          {
+            return 2;
+          }
+    }
+
+    if(ck_a == *data_iterator)//checks the checksum
+    {
+      if(data_iterator != data_list.end())
+      {
+        data_iterator++;
+      }
+      else
+      {
+        return 2;
+      }
+      if(ck_b == *data_iterator)
+      {
+        return true;
+      }
+    }
+    return false;
+}
 ///******************************************************************///
 ///DATE/TIME FUNCTIONS
 

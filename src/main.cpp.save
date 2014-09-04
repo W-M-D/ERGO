@@ -40,30 +40,33 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <unistd.h>
+#include <iomanip>
 #include "CLog.h"
 #include "CERGO_SERIAL.h"
 #include "CERGO_GPS.h"
 #include "CERGO_INTERNET.h"
 
-void signal_callback_handler(int signum,CERGO_SERIAL&);
 
 
 int main(int argc, char *argv[])
 {
     int DEBUG_LEVEL = 1;
-    if(argc == 2)
+    int V_TIME  = 5;
+    if(argc >= 2)
     {
       DEBUG_LEVEL = atoi(argv[1]);
+      if(argc == 3)
+      {
+        V_TIME = atoi(argv[2]);
+      }
     }
 
     CLog * Log= new CLog; //inits the log
-    CERGO_SERIAL Serial(DEBUG_LEVEL) ; // inits the Serial class
+    CERGO_SERIAL Serial(DEBUG_LEVEL,V_TIME) ; // inits the Serial class
     CERGO_GPS GPS(DEBUG_LEVEL) ; // inits the GPS CLASS
 
-    signal(SIGINT,signal_callback_handler(Serial));
-
     uint8_t  data;// data storage/test variable
-    std::forward_list <uint8_t> test_list;
+    std::deque <uint8_t> test_list;
 
     int counter = 0;
     int data_int = 0;
@@ -77,7 +80,7 @@ int main(int argc, char *argv[])
     Serial.setval_gpio(1,24);
     Serial.serial_setup(1337);
     CERGO_INTERNET Internet(DEBUG_LEVEL); // inits the INTERNET class
-    std::forward_list <uint8_t> data_list; // list to store serial data
+    std::deque <uint8_t> data_list; // list to store serial data
     std::stringstream test_string;
 
     while(true) // main management loop
@@ -91,57 +94,56 @@ int main(int argc, char *argv[])
                             test_list = data_list;
                   }
                   data_int =GPS.Read_data(data_list);
-                  if(data_int == 0)
+                  if(data_int == 3)
                   {
                     if(DEBUG_LEVEL >=2)
                     {
-                        Log->add("POS DATA\n");
+                        printf("POS DATA\n");
                     }
                   }
-                  else if( data_int == 1)//sends the serial data to be parsed
+                  else if( data_int == 4)//sends the serial data to be parsed
                   {
                       Serial.setval_gpio(1,18);
                       Internet.manage_list(GPS.packatize());// adds the string from the packatize function in gps to the string list
                       Serial.setval_gpio(0,18);
-                      if(DEBUG_LEVEL >=2)
+                      if(DEBUG_LEVEL >=3)
                       {
-                          Log-> add("Good data!");
+                          printf("Good data!");
                           while(!test_list.empty())
                           {
-                             test_string << std::hex << test_list.front();
+                             printf("0x%X ",test_list.front());
                             test_list.pop_front();
                         }
-                          Log->add("%s\n",test_string.str().c_str());
+                        printf("\n\n");
                     }
                   }
                   else if(data_int == 2)
                   {
-                    if(DEBUG_LEVEL >=2)
-                    {
-                        Log-> add("Bad data!");
-                        while(!test_list.empty())
-                        {
-                             test_string << std::hex << test_list.front();
+                      if(DEBUG_LEVEL >=3)
+                      {
+                          printf("Bad data!");
+                          while(!test_list.empty())
+                          {
+                             printf("0x%X ",test_list.front());
                             test_list.pop_front();
                         }
-                          Log->add("%s\n",test_string.str().c_str());
+                        printf("\n\n");
                     }
                   }
-                  else if (data_int == 3)
+                  else if (data_int == 0)
                   {
-                    if(DEBUG_LEVEL >= 2)
-                    {
-                        Log->add("Bad checksum!");
-                        while(!test_list.empty())
-                        {
-                             test_string << std::hex << test_list.front();
+                      if(DEBUG_LEVEL >=3)
+                      {
+                          printf("Bad checksum!");
+                          while(!test_list.empty())
+                          {
+                             printf("0x%X ",test_list.front());
                             test_list.pop_front();
                         }
-                          Log->add("%s\n",test_string.str().c_str());
+                        printf("\n\n");
                     }
                   }
         }
-        data_list.clear();
 
         if(Internet.get_internet_availiable() )
         {
@@ -163,11 +165,3 @@ int main(int argc, char *argv[])
     }
 }
 
-void signal_callback_handler(int signum,CERGO_SERIAL& Serial)
-{
-
-   // Cleanup and close up stuff here
-    Serial.~CERGO_SERIAL();
-   // Terminate program
-   exit(signum);
-}
