@@ -47,10 +47,7 @@ int CERGO_GPS::ubx_checksum(std::deque<uint8_t> & data_list)//returns 0 if bad c
     uint8_t ck_b = 0;
     size_t UBX_length_hi = 0;
 
-    if(data_list.size() < 5)
-    {
-              return 2;
-    }
+
     UBX_length_hi = data_list[4];
     if(data_list.size() < UBX_length_hi+9);
     {
