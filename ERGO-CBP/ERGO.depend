@@ -1,0 +1,88 @@
+# depslib dependency file v1.0
+1409811250 source:/home/neophobia/projects/ERGO/ergo/src/CERGO_INTERNET.cpp
+	"CERGO_INTERNET.h"
+
+1408778290 /home/neophobia/projects/ERGO/ergo/src/CERGO_INTERNET.h
+	<forward_list>
+	<unistd.h>
+	<stdio.h>
+	<curl/curl.h>
+	<iostream>
+	"CLog.h"
+
+1408778290 /home/neophobia/projects/ERGO/ergo/src/CLog.h
+	<ctime>
+	<string.h>
+	<fstream>
+	<sstream>
+	<cstdio>
+	<iostream>
+	<forward_list>
+
+1409812515 source:/home/neophobia/projects/ERGO/ergo/src/CERGO_SERIAL.cpp
+	<stdlib.h>
+	<stdio.h>
+	<string.h>
+	<termios.h>
+	<unistd.h>
+	<fcntl.h>
+	<iostream>
+	"CERGO_SERIAL.h"
+
+1409806385 /home/neophobia/projects/ERGO/ergo/src/CERGO_SERIAL.h
+	<stdlib.h>
+	<stdio.h>
+	<string.h>
+	<termios.h>
+	<unistd.h>
+	<fcntl.h>
+	"CLog.h"
+	<forward_list>
+	<deque>
+	<sys/poll.h>
+
+1408778290 source:/home/neophobia/projects/ERGO/ergo/src/CLog.cpp
+	"CLog.h"
+	<ctime>
+	<iostream>
+	<stdio.h>
+	<stdarg.h>
+	<string.h>
+
+1409854229 source:/home/neophobia/projects/ERGO/ergo/src/main.cpp
+	<forward_list>
+	<stdio.h>
+	<iostream>
+	<stdlib.h>
+	<unistd.h>
+	<signal.h>
+	<sys/types.h>
+	<sys/stat.h>
+	<fstream>
+	<string>
+	<stdio.h>
+	<stdlib.h>
+	<stdint.h>
+	<unistd.h>
+	<iomanip>
+	"CLog.h"
+	"CERGO_SERIAL.h"
+	"CERGO_GPS.h"
+	"CERGO_INTERNET.h"
+
+1409809936 /home/neophobia/projects/ERGO/ergo/src/CERGO_GPS.h
+	<inttypes.h>
+	<string.h>
+	<ctime>
+	<cmath>
+	<stdio.h>
+	<stdlib.h>
+	<deque>
+	<forward_list>
+	"CLog.h"
+
+1409855681 source:/home/neophobia/projects/ERGO/ergo/src/CERGO_GPS.cpp
+	"CERGO_GPS.h"
+	<cmath>
+	<unistd.h>
+

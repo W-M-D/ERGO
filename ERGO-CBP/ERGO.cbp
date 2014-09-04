@@ -12,8 +12,12 @@
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
+					<Add option="-std=c++0x" />
 					<Add option="-g" />
 				</Compiler>
+				<Linker>
+					<Add option="-lcurl" />
+				</Linker>
 			</Target>
 			<Target title="Release">
 				<Option output="bin/Release/ERGO" prefix_auto="1" extension_auto="1" />
@@ -22,6 +26,7 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-O2" />
+					<Add option="-std=c++0x" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -30,8 +35,12 @@
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
+			<Add option="-std=c++0x" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Linker>
+			<Add option="-lcurl" />
+		</Linker>
 		<Unit filename="../src/CERGO_GPS.cpp" />
 		<Unit filename="../src/CERGO_GPS.h" />
 		<Unit filename="../src/CERGO_INTERNET.cpp" />
