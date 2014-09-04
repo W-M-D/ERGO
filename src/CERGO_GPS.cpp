@@ -73,6 +73,7 @@ int CERGO_GPS::ubx_checksum(std::deque<uint8_t> & data_list)//returns 0 if bad c
         return 1;
       }
     }
+    data_list.pop_front();
     return 0;
 }
 
