@@ -8,8 +8,8 @@
 #include <cmath>
 #include <stdio.h>
 #include <stdlib.h>
+#include <deque>
 #include <forward_list>
-
 #include "CLog.h"
 
 
@@ -24,21 +24,21 @@ public:
 
     ///**********************************///
     ///COMS
-    int Read_data(std::forward_list <uint8_t> &); // takes in a data list from the serial function then tests and parses the data.
-    int ubx_checksum(std::forward_list <uint8_t> &);//adds the current UBLOX DATA to the checksums described here http://www.u-blox.com/images/downloads/Product_Docs/u-blox6_ReceiverDescriptionProtocolSpec_%28GPS.G6-SW-10018%29.pdf
+    int Read_data(std::deque <uint8_t> &); // takes in a data list from the serial function then tests and parses the data.
+    int ubx_checksum(std::deque <uint8_t> &);//adds the current UBLOX DATA to the checksums described here http://www.u-blox.com/images/downloads/Product_Docs/u-blox6_ReceiverDescriptionProtocolSpec_%28GPS.G6-SW-10018%29.pdf
     void sendUBX(int *MSG, int len); // sends message to UBLOX ???
     bool getUBX_ACK(int *MSG);
     ///**********************************///
 
-    bool parse_ubx_gps(std::forward_list <uint8_t> & data_list);//parses the UBLOX DATA by checking the ID ETC Depends on *_bytes
+    int parse_ubx_gps(std::deque <uint8_t> & data_list);//parses the UBLOX DATA by checking the ID ETC Depends on *_bytes
     ///**************************************///
 
 
     ///**************************************///
     ///BYTE TOOLS **
-    long join_4_bytes(std::forward_list <uint8_t> & data_list); // Joins four bytes together
-    int join_2_bytes(std::forward_list <uint8_t> & data_list); // joins two bytes together
-    uint8_t one_byte(std::forward_list <uint8_t> & data_list); // takes a single byte from buffer returns long
+    long join_4_bytes(std::deque <uint8_t> & data_list); // Joins four bytes together
+    int join_2_bytes(std::deque <uint8_t> & data_list); // joins two bytes together
+    uint8_t one_byte(std::deque <uint8_t> & data_list); // takes a single byte from buffer returns long
     char* bytes_to_decimal(char Buffer[]); //converts bytes to decimal  unimplemented
     ///**************************************///
 

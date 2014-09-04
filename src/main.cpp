@@ -54,18 +54,19 @@ int main(int argc, char *argv[])
     int V_TIME  = 5;
     if(argc >= 2)
     {
-      DEBUG_LEVEL = atoi(argv[1]);
-      if(argc == 3)
-      {
-        V_TIME = atoi(argv[2]);
-      }
+        DEBUG_LEVEL = atoi(argv[1]);
+        if(argc == 3)
+        {
+            V_TIME = atoi(argv[2]);
+        }
     }
+
     CLog * Log= new CLog; //inits the log
     CERGO_SERIAL Serial(DEBUG_LEVEL,V_TIME) ; // inits the Serial class
     CERGO_GPS GPS(DEBUG_LEVEL) ; // inits the GPS CLASS
 
     uint8_t  data;// data storage/test variable
-    std::forward_list <uint8_t> test_list;
+    std::deque <uint8_t> test_list;
 
     int counter = 0;
     int data_int = 0;
@@ -79,7 +80,7 @@ int main(int argc, char *argv[])
     Serial.setval_gpio(1,24);
     Serial.serial_setup(1337);
     CERGO_INTERNET Internet(DEBUG_LEVEL); // inits the INTERNET class
-    std::forward_list <uint8_t> data_list; // list to store serial data
+    std::deque <uint8_t> data_list; // list to store serial data
     std::stringstream test_string;
 
     while(true) // main management loop
@@ -88,78 +89,77 @@ int main(int argc, char *argv[])
 
         while(!data_list.empty())
         {
-                  if(DEBUG_LEVEL >= 2)
-                  {
-                            test_list = data_list;
-                  }
-                  data_int =GPS.Read_data(data_list);
-                  if(data_int == 0)
-                  {
-                    if(DEBUG_LEVEL >=2)
+            if(DEBUG_LEVEL >= 2)
+            {
+                test_list = data_list;
+            }
+            data_int =GPS.Read_data(data_list);
+            if(data_int == 3)
+            {
+                if(DEBUG_LEVEL >=2)
+                {
+                    printf("POS DATA\n");
+                }
+            }
+            else if( data_int == 4)//sends the serial data to be parsed
+            {
+                Serial.setval_gpio(1,18);
+                Internet.manage_list(GPS.packatize());// adds the string from the packatize function in gps to the string list
+                Serial.setval_gpio(0,18);
+                if(DEBUG_LEVEL >=3)
+                {
+                    printf("Good data!");
+                    while(!test_list.empty())
                     {
-                        printf("POS DATA\n");
+                        printf("0x%X ",test_list.front());
+                        test_list.pop_front();
                     }
-                  }
-                  else if( data_int == 1)//sends the serial data to be parsed
-                  {
-                      Serial.setval_gpio(1,18);
-                      Internet.manage_list(GPS.packatize());// adds the string from the packatize function in gps to the string list
-                      Serial.setval_gpio(0,18);
-                      if(DEBUG_LEVEL >=3)
-                      {
-                          printf("Good data!");
-                          while(!test_list.empty())
-                          {
-                             printf("0x%X ",test_list.front());
-                            test_list.pop_front();
-                        }
-                        printf("\n\n");
+                    printf("\n\n");
+                }
+            }
+            else if(data_int == 2)
+            {
+                if(DEBUG_LEVEL >=3)
+                {
+                    printf("Bad data!");
+                    while(!test_list.empty())
+                    {
+                        printf("0x%X ",test_list.front());
+                        test_list.pop_front();
                     }
-                  }
-                  else if(data_int == 2)
-                  {
-                      if(DEBUG_LEVEL >=3)
-                      {
-                          printf("Bad data!");
-                          while(!test_list.empty())
-                          {
-                             printf("0x%X ",test_list.front());
-                            test_list.pop_front();
-                        }
-                        printf("\n\n");
+                    printf("\n\n");
+                }
+            }
+            else if (data_int == 0)
+            {
+                if(DEBUG_LEVEL >=3)
+                {
+                    printf("Bad checksum!");
+                    while(!test_list.empty())
+                    {
+                        printf("0x%X ",test_list.front());
+                        test_list.pop_front();
                     }
-                  }
-                  else if (data_int == 3)
-                  {
-                      if(DEBUG_LEVEL >=3)
-                      {
-                          printf("Bad checksum!");
-                          while(!test_list.empty())
-                          {
-                             printf("0x%X ",test_list.front());
-                            test_list.pop_front();
-                        }
-                        printf("\n\n");
-                    }
-                  }
+                    printf("\n\n");
+                }
+            }
         }
-        data_list.clear();
 
         if(Internet.get_internet_availiable() )
         {
-          if(!internet_light_set)
-          {
-              internet_light_set =true;
-              Serial.setval_gpio(1,23);
-          }
+            if(!internet_light_set)
+            {
+                internet_light_set =true;
+                Serial.setval_gpio(1,23);
+            }
         }
         else
         {
-          if(internet_light_set)
-          {
-            internet_light_set= false;
-              Serial.setval_gpio(0,23);
-          }
+            if(internet_light_set)
+            {
+                internet_light_set= false;
+                Serial.setval_gpio(0,23);
+            }
         }
 
     }

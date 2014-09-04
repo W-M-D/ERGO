@@ -84,7 +84,7 @@ bool CERGO_SERIAL::serial_init(int baud)
 }
 
 
-int CERGO_SERIAL::data_read (std::forward_list <uint8_t> & data_list)
+int CERGO_SERIAL::data_read (std::deque <uint8_t> & data_list)
 {
     struct pollfd fds[1];
     fds[0].fd = tty_fd;
@@ -105,12 +105,9 @@ int CERGO_SERIAL::data_read (std::forward_list <uint8_t> & data_list)
             ssize_t rc = read(tty_fd, &buff, sizeof(buff) );
             if (rc > 0)
             {
-                auto it = data_list.before_begin();
-
                 for(unsigned int x = 0;x < (rc/sizeof(char)) ;x++)
                 {
-                        data_list.emplace_after(it,buff[x]);
-                        it++;
+                        data_list.emplace_back(buff[x]);
                 }
                 return rc;
             }
@@ -282,7 +279,7 @@ bool CERGO_SERIAL::getUBX_ACK(int *MSG)
     int ackByteID = 0;
     int ackPacket[10];
     clock_t start_clock = clock();
-   std::forward_list <uint8_t> data_list; // list to store serial data
+   std::deque <uint8_t> data_list; // list to store serial data
     if(DEBUG_LEVEL >= 2)
     {
         Log->add(" * Reading ACK response: ");

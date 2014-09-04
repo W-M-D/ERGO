@@ -12,6 +12,7 @@
 #include <fcntl.h>
 #include "CLog.h"
 #include <forward_list>
+#include <deque>
 #include <sys/poll.h>
 
 
@@ -28,7 +29,7 @@ public:
 
     void sendUBX(int *,size_t);
 
-    int data_read (std::forward_list <uint8_t> &);
+    int data_read (std::deque <uint8_t> &);
     void setPinMode(int pinID, int mode);
     void writeFile(int fileID, int value);
 

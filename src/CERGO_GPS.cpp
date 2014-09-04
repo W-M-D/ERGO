@@ -13,116 +13,62 @@ CERGO_GPS::CERGO_GPS(int debug_level)
 ///******************************************************************///
 ///UBLOX COMMS
 
-int CERGO_GPS::Read_data(std::forward_list<uint8_t> & data_list )
+int CERGO_GPS::Read_data(std::deque<uint8_t> & data_list )
 {
-
+        int test_int = 0;
         while(!data_list.empty())
         {
-          if(data_list.front() == 0xB5)//check if front of list == 0xB5
+          if(data_list.front() == 0xB5 && data_list.at(2) == 0x62)//check if front of list == 0xB5
           {
             break;
           }
-          data_list.pop_front();// remove garbage bytes if not == 0xB5
         }
-
-        if(!data_list.empty()) // if the list is not empty
+        test_int = ubx_checksum(data_list);
+        if(test_int == 1)
         {
-          if(data_list.front() == 0xB5)//check again to make sure it's really 0xB5
-          {
-             data_list.pop_front(); //pop 0xB5
-            if(!data_list.empty()) // if the list is not empty
-            {
-             if(data_list.front()  == 0x62)//Is the next byte 0x62 ?
-             {
-                data_list.pop_front(); //pop it !
-             }
-             else
-             {
-               return 2;//return
-             }
-            }
-            else
-            {
-               return 2;//return
-            }
-          }
-          else
-          {
-            return 2;
-          }
+          data_list.erase (data_list.begin(),data_list.begin()+2);
+          return (parse_ubx_gps(data_list));
         }
-
-
-       if(ubx_checksum(data_list))//does a UBX checksum
-       {
-         return(parse_ubx_gps(data_list));//continue to parse the data
-       }
-        else
+        if(test_int == 0)
         {
-          return 3;// returns 3 if failed
+            return 0;
+        }
+        if(test_int == 2)
+        {
+          return 2;//not long enough please try again !
         }
 
     return 0;
 }
 
-int CERGO_GPS::ubx_checksum(std::forward_list <uint8_t> & data_list)
+int CERGO_GPS::ubx_checksum(std::deque<uint8_t> & data_list)//returns 0 if bad checksum 1 if good checksum and 3 if list is not long enough...
 {
     uint8_t ck_a = 0;
     uint8_t ck_b = 0;
-    uint8_t UBX_length_hi = 0;
-    auto data_iterator = data_list.begin();//sets the data iterator to the beginging of the list
-    if(data_iterator != data_list.end())// moves one forward
+    size_t UBX_length_hi = 0;
+
+    if(data_list.size() < 4)
     {
-            data_iterator++;
+      UBX_length_hi = data_list[4];
+      if(data_list.size() < UBX_length_hi+8);
+      {
+        return 2;
+      }
     }
     else
     {
-      return false;
+      return 2;
     }
 
-    if(data_iterator != data_list.end())//moves one forward
-    {
-            data_iterator++;
-    }
-    else
-    {
-      return false;
-    }
-
-    if(data_iterator != data_list.end())
-    {
-      UBX_length_hi = *data_iterator;// grabs the length
-    }
-    else
-    {
-      return false;
-    }
-    data_iterator = data_list.begin();//resets the iterator
     for(uint8_t i = 0 ; i <  (UBX_length_hi + 4) ;i++)//preforms the checksum!
     {
-          if(data_iterator != data_list.end())
-          {
-            ck_a+=*data_iterator;
+            ck_a+= data_list.at(3+i);
             ck_b+=ck_a;
-            data_iterator++;
-          }
-          else
-          {
-            return false;
-          }
     }
 
-    if(ck_a == *data_iterator)//checks the checksum
+    if(ck_a == data_list.at(UBX_length_hi + 7))//checks the checksum
     {
-      if(data_iterator != data_list.end())
-      {
-        data_iterator++;
-      }
-      else
-      {
-        return false;
-      }
-      if(ck_b == *data_iterator)
+      if(ck_b == data_list.at(UBX_length_hi + 8))
       {
         return true;
       }
@@ -311,7 +257,7 @@ std::string CERGO_GPS::nanosecond_packatize(long  nS)
 ///******************************************************************///
 ///UBLOX FUCNTIONS
 
-bool CERGO_GPS::parse_ubx_gps(std::forward_list <uint8_t> & data_list)
+int CERGO_GPS::parse_ubx_gps(std::deque<uint8_t> & data_list)
 {
 
       if(data_list.front() == 0x01)//ubx class
@@ -320,16 +266,14 @@ bool CERGO_GPS::parse_ubx_gps(std::forward_list <uint8_t> & data_list)
         switch(data_list.front())//Checking the UBX ID
         {
             case 0x02: //ID NAV-POSLLH
-                data_list.pop_front();//removes the ID
-                data_list.pop_front();//removes length max
-                data_list.pop_front();//removes length min
+            data_list.erase (data_list.begin(),data_list.begin()+3);
 
                 Time = join_4_bytes(data_list); // ms Time of week
                 Longitude = join_4_bytes(data_list); // lon*10000000
                 Lattitude = join_4_bytes(data_list); // lat*10000000
                 Altitude = join_4_bytes(data_list);  // elipsoid heigth mm
-                data_list.pop_front();//pops checksum a
-                data_list.pop_front();//pops checksum b
+                data_list.pop_front();//pop_fronts checksum a
+                data_list.pop_front();//pop_fronts checksum b
                 return false;
                 break;
             case 0x03://ID NAV-STATUS
@@ -348,9 +292,8 @@ bool CERGO_GPS::parse_ubx_gps(std::forward_list <uint8_t> & data_list)
         switch(data_list.front())//Checking the UBX ID
         {
           case 0x03: //ID TIM-TM2
-              data_list.pop_front();
-              data_list.pop_front();
-              data_list.pop_front();
+            data_list.erase (data_list.begin(),data_list.begin()+3);
+
 
           ch = one_byte(data_list);//marker channel 0 or 1
           flags = one_byte(data_list);//Bitmask
@@ -365,10 +308,10 @@ bool CERGO_GPS::parse_ubx_gps(std::forward_list <uint8_t> & data_list)
            checksum = join_2_bytes(data_list);
           break;
         }
-        return true;
+        return 3;
     }
 
-    return false;
+    return 4;
 }
 
 ///******************************************************************///
@@ -474,7 +417,7 @@ double diffclock( long clock1, long clock2 )
 ///******************************************************************/// BYTE-functions
 /// Join 4 bytes into a long
 
-long CERGO_GPS::join_4_bytes(std::forward_list <uint8_t> & data_list)
+long CERGO_GPS::join_4_bytes(std::deque<uint8_t> & data_list)
 {
     union long_union
     {
@@ -489,7 +432,7 @@ long CERGO_GPS::join_4_bytes(std::forward_list <uint8_t> & data_list)
     return(longUnion.dword);
 }
 
-int CERGO_GPS::join_2_bytes(std::forward_list <uint8_t> & data_list)
+int CERGO_GPS::join_2_bytes(std::deque<uint8_t> & data_list)
 {
     union long_union
     {
@@ -506,7 +449,7 @@ int CERGO_GPS::join_2_bytes(std::forward_list <uint8_t> & data_list)
     return(longUnion.dword);
 }
 
-uint8_t CERGO_GPS::one_byte(std::forward_list <uint8_t> & data_list)
+uint8_t CERGO_GPS::one_byte(std::deque<uint8_t> & data_list)
 {
     union long_union
     {
