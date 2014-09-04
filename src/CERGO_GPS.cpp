@@ -46,9 +46,9 @@ int CERGO_GPS::ubx_checksum(std::deque<uint8_t> & data_list)//returns 0 if bad c
     uint8_t ck_a = 0;
     uint8_t ck_b = 0;
     int UBX_length_hi=0;
+    Log ->add("\ndata list size : %d\n UBX_length_hi : %d",data_list.size(),UBX_length_hi);
 
     UBX_length_hi = data_list[4];
-    Log ->add("\ndata list size : %d\n UBX_length_hi : %d",data_list.size(),UBX_length_hi);
     if(data_list.size() < UBX_length_hi)
     {
       return 2;
