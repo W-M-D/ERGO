@@ -61,6 +61,8 @@ int CERGO_GPS::ubx_checksum(std::deque<uint8_t> & data_list)//returns 0 if bad c
             ck_a+= data_list.at(i+3);
             ck_b+=ck_a;
     }
+
+    Log ->add("ck_a = %d check_a = %d \n ck_b = %d check_b = %d",ck_a,data_list.at(UBX_length_hi + 7), ck_b,data_list.at(UBX_length_hi + 8));
     if(ck_a == data_list.at(UBX_length_hi + 7))//checks the checksum
     {
       if(ck_b == data_list.at(UBX_length_hi + 8))
