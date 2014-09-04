@@ -31,8 +31,10 @@ int CERGO_GPS::Read_data(std::deque<uint8_t> & data_list )
         test_int = ubx_checksum(data_list);
         if(test_int == 1)
         {
-          data_list.erase (data_list.begin(),data_list.begin()+2);
-          return (parse_ubx_gps(data_list));
+          data_list.pop_front();
+          data_list.pop_front();
+          test_int = parse_ubx_gps(data_list);
+          return (test_int);
         }
         if(test_int == 0)
         {
