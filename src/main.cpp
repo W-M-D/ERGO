@@ -86,8 +86,6 @@ int main(int argc, char *argv[])
     {
         counter = Serial.data_read(data_list); // checks for incomming data
 
-        while(!data_list.empty())
-        {
             if(DEBUG_LEVEL >= 2)
             {
                 test_list = data_list;
@@ -143,7 +141,7 @@ int main(int argc, char *argv[])
                     printf("\n\n");
                 }
             }
-        }
+
 
         if(Internet.get_internet_availiable() )
         {
