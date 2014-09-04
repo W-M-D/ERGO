@@ -312,8 +312,7 @@ std::string CERGO_GPS::nanosecond_packatize(long  nS)
 
 ///******************************************************************///
 ///UBLOX FUCNTIONS
-
-int CERGO_GPS::parse_ubx_gps(std::deque<uint8_t> & data_list)
+int CERGO_GPS::parse_ubx_gps(std::deque <uint8_t> & data_list)
 {
 
       if(data_list.front() == 0x01)//ubx class
@@ -322,14 +321,16 @@ int CERGO_GPS::parse_ubx_gps(std::deque<uint8_t> & data_list)
         switch(data_list.front())//Checking the UBX ID
         {
             case 0x02: //ID NAV-POSLLH
-            data_list.erase (data_list.begin(),data_list.begin()+3);
+                data_list.pop_front();//removes the ID
+                data_list.pop_front();//removes length max
+                data_list.pop_front();//removes length min
 
                 Time = join_4_bytes(data_list); // ms Time of week
                 Longitude = join_4_bytes(data_list); // lon*10000000
                 Lattitude = join_4_bytes(data_list); // lat*10000000
                 Altitude = join_4_bytes(data_list);  // elipsoid heigth mm
-                data_list.pop_front();//pop_fronts checksum a
-                data_list.pop_front();//pop_fronts checksum b
+                data_list.pop_front();//pops checksum a
+                data_list.pop_front();//pops checksum b
                 return 4;
                 break;
             case 0x03://ID NAV-STATUS
@@ -348,8 +349,9 @@ int CERGO_GPS::parse_ubx_gps(std::deque<uint8_t> & data_list)
         switch(data_list.front())//Checking the UBX ID
         {
           case 0x03: //ID TIM-TM2
-            data_list.erase (data_list.begin(),data_list.begin()+3);
-
+              data_list.pop_front();
+              data_list.pop_front();
+              data_list.pop_front();
 
           ch = one_byte(data_list);//marker channel 0 or 1
           flags = one_byte(data_list);//Bitmask
@@ -362,9 +364,12 @@ int CERGO_GPS::parse_ubx_gps(std::deque<uint8_t> & data_list)
            towSubMsF = join_4_bytes(data_list);
            accEst = join_4_bytes(data_list);
            checksum = join_2_bytes(data_list);
-        return 3;
+          break;
         }
+        return 3;
     }
+
+    return 4;
 }
 
 ///******************************************************************///
