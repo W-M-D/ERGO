@@ -126,7 +126,6 @@ int main(int argc, char *argv[])
                     }
                     printf("\n\n");
                 }
-                break;
             }
             else if (data_int == 0)
             {
