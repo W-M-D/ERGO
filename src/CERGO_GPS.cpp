@@ -18,7 +18,7 @@ int CERGO_GPS::Read_data(std::deque<uint8_t> & data_list )
         int test_int = 0;
         while(!data_list.empty())
         {
-          if(data_list.front() == 0xB5 && data_list.at(1) == 0x62)//check if front of list == 0xB5
+          if(data_list.front() == 0xB5)//check if front of list == 0xB5
           {
             break;
           }
@@ -27,6 +27,18 @@ int CERGO_GPS::Read_data(std::deque<uint8_t> & data_list )
             data_list.pop_front();
           }
         }
+        if(!data_list.empty())
+        {
+          if(data_list.at(1) != 0x62)
+          {
+              return 0;
+          }
+        }
+        else
+        {
+          return 2;
+        }
+
 
         test_int = ubx_checksum(data_list);
         if(test_int == 1)
