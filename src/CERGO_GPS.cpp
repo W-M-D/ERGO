@@ -31,6 +31,7 @@ int CERGO_GPS::Read_data(std::deque<uint8_t> & data_list )
         {
           if(data_list.at(1) != 0x62)
           {
+              data_list.pop_front();
               return 0;
           }
         }
@@ -496,7 +497,6 @@ long CERGO_GPS::join_4_bytes(std::deque<uint8_t> & data_list)
         long dword;
         uint8_t  byte[4]={0};
     } long_union;
-    memset(&long_union, 0, sizeof(long_union));
 
     for(int i = 0; i < 4; i++)
     {
