@@ -51,6 +51,7 @@ int CERGO_GPS::Read_data(std::deque<uint8_t> & data_list )
         }
         if(test_int == 0)
         {
+            data_list.pop_front(); // removes front byte to prevent infinite loop
             return 0;
         }
         if(test_int == 2)
