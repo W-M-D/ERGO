@@ -496,7 +496,7 @@ int CERGO_GPS::join_2_bytes(std::deque<uint8_t> & data_list)
 {
     union long_union
     {
-        int32_t dword;
+        int dword;
         uint8_t  byte[2] ;
     } longUnion;
 
