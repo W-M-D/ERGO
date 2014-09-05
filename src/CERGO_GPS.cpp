@@ -27,7 +27,7 @@ int CERGO_GPS::Read_data(std::deque<uint8_t> & data_list )
             data_list.pop_front();
           }
         }
-          if(data_list.size() > 2)
+          if(data_list.size() > 3)
           {
             if(data_list.at(1) != 0x62)
             {
