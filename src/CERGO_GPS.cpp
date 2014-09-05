@@ -496,10 +496,10 @@ int CERGO_GPS::join_2_bytes(std::deque<uint8_t> & data_list)
 {
     union
     {
-        int32_t word;
-       uint8_t  byte[2]={0} ;
+       uint32_t word ;
+       uint8_t  byte[2] ;
     } short_union;
-
+    memset(&short_union, 0, sizeof(short_union));
     for(int i = 0; i < 2; i++)
     {
         short_union.byte[i] = data_list.front();
@@ -514,7 +514,7 @@ uint8_t CERGO_GPS::one_byte(std::deque<uint8_t> & data_list)
     union
     {
         int32_t nibble;
-        uint8_t  byte[1]={0};
+        uint8_t  byte[1];
     } nibble_union;
 
     nibble_union.byte[0] = data_list.front();
