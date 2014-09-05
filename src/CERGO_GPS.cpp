@@ -481,8 +481,8 @@ long CERGO_GPS::join_4_bytes(std::deque<uint8_t> & data_list)
 {
     union long_union
     {
-        long dword;
         uint8_t  byte[4];
+        long dword;
     } longUnion;
     for(int i = 0; i < 4; i++)
     {
@@ -496,8 +496,8 @@ int CERGO_GPS::join_2_bytes(std::deque<uint8_t> & data_list)
 {
     union long_union
     {
-        int dword;
         uint8_t  byte[2] ;
+        int dword;
     } longUnion;
 
     for(int i = 0; i < 2; i++)
