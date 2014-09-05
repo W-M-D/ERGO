@@ -12,11 +12,11 @@ LD = g++
 WINDRES = windres
 
 INC = 
-CFLAGS = -Wall -fexceptions
+CFLAGS = -Wall -std=c++0x -fexceptions
 RESINC = 
 LIBDIR = 
 LIB = 
-LDFLAGS = 
+LDFLAGS = -lcurl
 
 INC_DEBUG = $(INC)
 CFLAGS_DEBUG = $(CFLAGS) -g
