@@ -479,48 +479,48 @@ double diffclock( long clock1, long clock2 )
 
 long CERGO_GPS::join_4_bytes(std::deque<uint8_t> & data_list)
 {
-    union long_union
+    union
     {
-        uint8_t  byte[4];
+        uint8_t  byte[4]={0};
         long dword;
-    } longUnion;
+    } long_union;
     for(int i = 0; i < 4; i++)
     {
-        longUnion.byte[i] = data_list.front();
+        long_union.byte[i] = data_list.front();
         data_list.pop_front();
     }
-    return(longUnion.dword);
+    return(long_union.dword);
 }
 
 int CERGO_GPS::join_2_bytes(std::deque<uint8_t> & data_list)
 {
-    union long_union
+    union
     {
-        uint8_t  byte[2] ;
-        int dword;
-    } longUnion;
+        uint8_t  byte[2]={0} ;
+        int32_t word;
+    } short_union;
 
     for(int i = 0; i < 2; i++)
     {
-        longUnion.byte[i] = data_list.front();
+        short_union.byte[i] = data_list.front();
         data_list.pop_front();
     }
 
-    return(longUnion.dword);
+    return(short_union.word);
 }
 
 uint8_t CERGO_GPS::one_byte(std::deque<uint8_t> & data_list)
 {
-    union long_union
+    union
     {
-        int32_t dword;
-        uint8_t  byte[1];
-    } longUnion;
+        int32_t nibble;
+        uint8_t  byte[1]={0};
+    } nibble_union;
 
-    longUnion.byte[0] = data_list.front();
+    nibble_union.byte[0] = data_list.front();
     data_list.pop_front();
 
-    return(longUnion.dword);
+    return(nibble_union.nibble);
 }
 
 
