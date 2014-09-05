@@ -27,14 +27,14 @@ int CERGO_GPS::Read_data(std::deque<uint8_t> & data_list )
             data_list.pop_front();
           }
         }
-        if(!data_list.empty())
-        {
-          if(data_list.at(1) != 0x62)
+          if(data_list.size() > 2)
           {
-              data_list.pop_front();
-              return 0;
+            if(data_list.at(1) != 0x62)
+            {
+                data_list.pop_front();
+                return 0;
+            }
           }
-        }
         else
         {
           return 2;

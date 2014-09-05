@@ -142,7 +142,7 @@ int main(int argc, char *argv[])
                     printf("\n\n");
                 }
             }
-    }
+        }
 
         if(Internet.get_internet_availiable() )
         {
