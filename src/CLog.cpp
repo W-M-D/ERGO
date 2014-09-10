@@ -82,11 +82,10 @@ void CLog::archive_load(std::forward_list <std::string> &  data_list)
         return;
       }
 
-      while (!data_in.eof() )
-      {
+
         std::getline(data_in,line);
         data_list.emplace_after(data_list.before_begin(),line);
-      }
+
       last_sent_line_save( data_in.tellg());
       data_in.close();
 
