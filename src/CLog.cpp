@@ -75,7 +75,7 @@ void CLog::archive_load(std::forward_list <std::string> &  data_list)
       data_in.open( "/etc/ERGO/ERGO_DATA.csv");
       if(!data_in.eof())
       {
-                  data_in.seekg(last_sent_line_get(),std::ios::end);
+                  data_in.seekg(last_sent_line_get());
       }
       else
       {
