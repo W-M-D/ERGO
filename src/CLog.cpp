@@ -24,6 +24,7 @@ Log->add(" your string here %d,%f,..."42,42.42 )
 */
 CLog::CLog()
 {
+  last_sent_line = 0;
   system("mkdir -p /etc/ERGO/");
   last_sent_line_get();
 }
@@ -73,7 +74,7 @@ void CLog::archive_load(std::forward_list <std::string> &  data_list)
       data_in.open( "/etc/ERGO/ERGO_DATA.csv");
       if(!is_empty(data_in))
       {
-          data_in.seekg(last_sent_line);
+                  data_in.seekg(last_sent_line);
       }
       else
       {
