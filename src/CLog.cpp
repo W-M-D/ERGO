@@ -25,7 +25,7 @@ Log->add(" your string here %d,%f,..."42,42.42 )
 CLog::CLog()
 {
   system("mkdir -p /etc/ERGO/");
-   //ctor
+  last_sent_line_get();
 }
 
 void CLog::data_add(std::string & date, std::string & time, std::string & unit_id, std::string & lat,std::string & lon,std::string & alt,std::string & nanoseconds)
@@ -48,34 +48,46 @@ void CLog::archive_save(std::forward_list <std::string> & string_list )
   data_file.close();
 }
 
+void CLog::last_sent_line_get()
+{
+    std::string test ="";
+    std::ifstream data_file;
+    data_file.open("/etc/ERGO/last_line");
+    getline(data_file,test);
+    last_sent_line = atoi(test.c_str());
+    data_file.close();
+}
+
+void CLog::last_sent_line_save(std::streampos ls)
+{
+  std::ofstream data_file;
+  data_file.open("/etc/ERGO/last_line");
+  data_file << ls;
+  data_file.close();
+}
+
 void CLog::archive_load(std::forward_list <std::string> &  data_list)
 {
-
+      std::string line;
       std::ifstream data_in;
-      data_in.open("/etc/ERGO/ERGO_ARCHIVE.list");
+      data_in.open( "/etc/ERGO/ERGO_ARCHIVE.list");
+      data_in.seekg(last_sent_line);
 
-      if(!is_empty(data_in))
+      while (! data_in.eof() )
       {
-          std::string instring;
-          auto string_iterator = data_list.before_begin(); // iterator for string list
-          while (!data_in.eof())
-          {
-          getline(data_in,instring);
-          string_iterator = data_list.emplace_after(string_iterator,instring);
-          }
-
-          std::ofstream data_clear;
-          data_clear.open( "/etc/ERGO/ERGO_ARCHIVE.list", std::ios::out | std::ios::trunc );
-          data_clear.close();
+        std::getline(data_in,line);
+        data_list.emplace_after(data_list.before_begin(),line);
       }
 
-    data_in.close();
+      last_sent_line = data_in.tellg();
+      last_sent_line_save(last_sent_line);
+      data_in.close();
 
 }
 
-bool CLog::is_empty(std::ifstream& pFile)
+bool CLog::is_empty(std::ifstream& data_in)
 {
-    return pFile.peek() == std::ifstream::traits_type::eof();
+    return data_in.peek() == std::ifstream::traits_type::eof();
 }
 
 

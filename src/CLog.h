@@ -15,6 +15,8 @@ public:
     void data_add(std::string &, std::string &, std::string &, std::string & ,std::string &,std::string &,std::string &);  //date, time, unit_id,  lat, on , alt, nanoseconds
     void archive_save(std::forward_list <std::string> &  );
     void archive_load(std::forward_list <std::string> &  );
+    void last_sent_line_get();
+    void last_sent_line_save(std::streampos ls);
 
     void add(const char * text , ...);
     std::string get_time();
@@ -25,8 +27,7 @@ public:
 protected:
 private:
     CLog * Log;
-
-
+    std::streampos begin,end,last_sent_line;
 
 
 };

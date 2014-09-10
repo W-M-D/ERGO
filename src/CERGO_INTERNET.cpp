@@ -162,43 +162,21 @@ void CERGO_INTERNET::manage_list(std::string event_string)
         static std::forward_list <std::string> string_list;
 
         string_list.emplace_after(string_list.before_begin(),event_string);
-        for(int i = 0; i < 20;i++)// only send 20 strings at a time to prevent hanging
-        {
-          if(!string_list.empty()) // checks if the string list has any strings in it
-          {
-              if(internet_availiable())
-              {
-                if(first_pass == true)// if this is the first time running this function
-                {
-                      Log->archive_load(string_list);// check the archive there might of been a crash etc....
-                      first_pass = false;
-                }
-                if (check_archive)// if the archive flag has been set
-                {
-                    Log->archive_load(string_list);// check the archive
-                    Log->add("Internet connection restored");//this probably means that we have server connection again
-                    check_archive = false; // reset the flag
-                }
 
-                if(send_string(URLEncode(string_list.front().c_str()))) // calls the function that sends data to the server returns true on success
-                {
-                    string_list.pop_front();// pops the first element
-                }
-              }
-              else
-              {
-                if(!check_archive) // if the archive flag is not set
-                {
-                    Log->add("ERROR :NO CONNECTION TO SERVER ARCHIVING STRINGS "); //there is probably no connection to the server
-                    check_archive = true; // set the archive flag
-                }
-                Log->archive_save(string_list); // archive the strings
-                break;
-              }
-          }
-          else
+        if(internet_availiable())
+        {
+          Log->archive_load(string_list);
+          if(send_string(URLEncode(string_list.front().c_str()))) // calls the function that sends data to the server returns true on success
           {
-            break;
+              string_list.pop_front();// pops the first element
+          }
+        }
+        else
+        {
+          if(!check_archive) // if the archive flag is not set
+          {
+              Log->add("ERROR :NO CONNECTION TO SERVER "); //there is probably no connection to the server
+              check_archive = true; // set the archive flag
           }
         }
 }
