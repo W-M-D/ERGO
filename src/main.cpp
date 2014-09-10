@@ -104,7 +104,7 @@ int main(int argc, char *argv[])
             else if( data_int == 3)//sends the serial data to be parsed
             {
                 Serial.setval_gpio(1,18);
-
+                GPS.packatize();
                 Serial.setval_gpio(0,18);
                 if(DEBUG_LEVEL >=3)
                 {
