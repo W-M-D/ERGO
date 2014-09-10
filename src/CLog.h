@@ -16,7 +16,7 @@ public:
     void archive_save(std::forward_list <std::string> &  );
     void archive_load(std::forward_list <std::string> &  );
     void last_sent_line_get();
-    void last_sent_line_save(std::streampos ls);
+    void last_sent_line_save(std::streamoff ls);
 
     void add(const char * text , ...);
     std::string get_time();
@@ -27,7 +27,7 @@ public:
 protected:
 private:
     CLog * Log;
-    std::streampos begin,end,last_sent_line;
+    std::streamoff last_sent_line;
 
 
 };

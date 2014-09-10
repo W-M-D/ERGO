@@ -59,7 +59,7 @@ void CLog::last_sent_line_get()
     data_file.close();
 }
 
-void CLog::last_sent_line_save(std::streampos ls)
+void CLog::last_sent_line_save(std::streamoff ls)
 {
   std::ofstream data_file;
   data_file.open("/etc/ERGO/last_line");
