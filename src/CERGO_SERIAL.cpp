@@ -276,11 +276,12 @@ void CERGO_SERIAL::sendUBX(int *MSG,size_t len)
 
 bool CERGO_SERIAL::getUBX_ACK(int *MSG)
 {
+    int serial_timeout = 0;
     int ackByteID = 0;
     int ackPacket[10];
     clock_t start_clock = clock();
    std::deque <uint8_t> data_list; // list to store serial data
-    if(DEBUG_LEVEL >= 2)
+    if(DEBUG_LEVEL >= 2)
     {
         Log->add(" * Reading ACK response: ");
     }
@@ -318,7 +319,7 @@ bool CERGO_SERIAL::getUBX_ACK(int *MSG)
         }
 
         // Make sure data is available to read
-        if (((clock() - start_clock)/( CLOCKS_PER_SEC / 1000 )) > 30)
+        if (((clock() - start_clock)/( CLOCKS_PER_SEC / 1000 )) > serial_timeout)
         {
             if(DEBUG_LEVEL >= 2)
             {

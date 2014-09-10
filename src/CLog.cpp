@@ -32,7 +32,7 @@ void CLog::data_add(std::string & date, std::string & time, std::string & unit_i
 {
   std::ofstream data_file;
   data_file.open("/etc/ERGO/ERGO_DATA.csv",std::ios_base::out | std::ios_base::app);
-  data_file << date << ',' << time << ',' << unit_id << ',' << lat << ',' << lon << ',' << alt << ',' << nanoseconds << '\n';
+  data_file << date << ' ' << time << ' ' << unit_id << ' ' << lat << ' ' << lon << ' ' << alt << ' ' << nanoseconds << '\n';
   data_file.close();
 }
 
@@ -83,11 +83,18 @@ void CLog::archive_load(std::forward_list <std::string> &  data_list)
         return;
       }
 
-
         std::getline(data_in,line);
-        data_list.emplace_after(data_list.before_begin(),line);
+        if(!line.empty())
+        {
+            data_list.emplace_after(data_list.before_begin(),line);
+        }
 
-      last_sent_line_save( data_in.tellg());
+      int g_int = data_in.tellg();
+
+      if(g_int!=-1)
+      {
+        last_sent_line_save( g_int);
+      }
       data_in.close();
 
 }
