@@ -71,7 +71,14 @@ void CLog::archive_load(std::forward_list <std::string> &  data_list)
       std::string line;
       std::ifstream data_in;
       data_in.open( "/etc/ERGO/ERGO_DATA.list");
-      data_in.seekg(last_sent_line);
+      if(!is_empty(data_in))
+      {
+          data_in.seekg(last_sent_line);
+      }
+      else
+      {
+        return;
+      }
 
       while (! data_in.eof() )
       {
