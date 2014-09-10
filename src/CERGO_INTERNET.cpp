@@ -8,6 +8,8 @@ CERGO_INTERNET::CERGO_INTERNET(int debug_level)
     check_archive = false;
 }
 
+
+
 bool CERGO_INTERNET::internet_availiable()
 {
     CURL *curl;
@@ -157,14 +159,17 @@ void CERGO_INTERNET::reset_internet(clock_t & timer,int MAX_TIME)
     }
 }
 
-void CERGO_INTERNET::manage_list(std::string event_string)
+void CERGO_INTERNET::manage_list()
 {
         static std::forward_list <std::string> string_list;
 
-        string_list.emplace_after(string_list.before_begin(),event_string);
-
         if(internet_availiable())
         {
+          if(check_archive)
+          {
+            Log->add("CONNECTION RESTORED");
+            check_archive = false;
+          }
           Log->archive_load(string_list);
           if(send_string(URLEncode(string_list.front().c_str()))) // calls the function that sends data to the server returns true on success
           {
@@ -176,7 +181,7 @@ void CERGO_INTERNET::manage_list(std::string event_string)
           if(!check_archive) // if the archive flag is not set
           {
               Log->add("ERROR :NO CONNECTION TO SERVER "); //there is probably no connection to the server
-              check_archive = true; // set the archive flag
+              check_archive = true;
           }
         }
 }

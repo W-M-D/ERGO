@@ -53,7 +53,7 @@ void CLog::last_sent_line_get()
     std::string test ="";
     std::ifstream data_file;
     data_file.open("/etc/ERGO/last_line");
-    getline(data_file,test);
+    std::getline(data_file,test);
     last_sent_line = atoi(test.c_str());
     data_file.close();
 }

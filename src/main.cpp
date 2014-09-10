@@ -28,6 +28,7 @@
 
 #include <forward_list>
 #include <stdio.h>
+#include <thread>         // std::thread
 #include <iostream>
 #include <stdlib.h>
 #include <unistd.h>
@@ -84,6 +85,7 @@ int main(int argc, char *argv[])
 
     while(true) // main management loop
     {
+        Internet.manage_list();
         counter = Serial.data_read(data_list); // checks for incomming data
         while(!data_list.empty())
         {
@@ -102,7 +104,7 @@ int main(int argc, char *argv[])
             else if( data_int == 3)//sends the serial data to be parsed
             {
                 Serial.setval_gpio(1,18);
-                Internet.manage_list(GPS.packatize());// adds the string from the packatize function in gps to the string list
+
                 Serial.setval_gpio(0,18);
                 if(DEBUG_LEVEL >=3)
                 {
