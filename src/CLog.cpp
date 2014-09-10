@@ -75,7 +75,7 @@ void CLog::archive_load(std::forward_list <std::string> &  data_list)
       data_in.seekg (0, data_in.beg);
       if(!data_in.eof())
       {
-                  data_in.seekg(last_sent_line);
+                  data_in.seekg(last_sent_line,std::ios::end);
       }
       else
       {
