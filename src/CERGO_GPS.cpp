@@ -185,7 +185,7 @@ std::string CERGO_GPS::packatize()
             {
               for ( int x = 0;  x < 7; x++)
               {
-                    getline ( file, value, ',' ); // read a string until next comma: http://www.cplusplus.com/reference/string/getline/
+                    getline ( file, value, ' ' ); // read a string until next comma: http://www.cplusplus.com/reference/string/getline/
 
                     if(DEBUG_LEVEL >=2)
                     {

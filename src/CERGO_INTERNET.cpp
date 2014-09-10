@@ -175,7 +175,6 @@ void CERGO_INTERNET::manage_list()
           {
             if(send_string(URLEncode(string_list.front().c_str()))) // calls the function that sends data to the server returns true on success
             {
-                printf("%s\n",string_list.front().c_str());
                 string_list.pop_front();// pops the first element
             }
           }
