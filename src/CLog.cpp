@@ -49,14 +49,15 @@ void CLog::archive_save(std::forward_list <std::string> & string_list )
   data_file.close();
 }
 
-void CLog::last_sent_line_get()
+std::streamoff CLog::last_sent_line_get()
 {
     std::string test ="";
     std::ifstream data_file;
     data_file.open("/etc/ERGO/last_line");
     std::getline(data_file,test);
-    last_sent_line = atoi(test.c_str());
+    last_sent_line = (atoi(test.c_str()));
     data_file.close();
+    return last_sent_line;
 }
 
 void CLog::last_sent_line_save(std::streamoff ls)
@@ -74,7 +75,7 @@ void CLog::archive_load(std::forward_list <std::string> &  data_list)
       data_in.open( "/etc/ERGO/ERGO_DATA.csv");
       if(!data_in.eof())
       {
-                  data_in.seekg(last_sent_line,std::ios::end);
+                  data_in.seekg(last_sent_line_get(),std::ios::end);
       }
       else
       {
