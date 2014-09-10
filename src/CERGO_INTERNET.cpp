@@ -171,9 +171,12 @@ void CERGO_INTERNET::manage_list()
             check_archive = false;
           }
           Log->archive_load(string_list);
-          if(send_string(URLEncode(string_list.front().c_str()))) // calls the function that sends data to the server returns true on success
+          if(!string_list.empty())
           {
-              string_list.pop_front();// pops the first element
+            if(send_string(URLEncode(string_list.front().c_str()))) // calls the function that sends data to the server returns true on success
+            {
+                string_list.pop_front();// pops the first element
+            }
           }
         }
         else
