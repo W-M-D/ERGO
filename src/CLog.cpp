@@ -24,7 +24,6 @@ Log->add(" your string here %d,%f,..."42,42.42 )
 */
 CLog::CLog()
 {
-  last_sent_line = 0;
   system("mkdir -p /etc/ERGO/");
   last_sent_line_get();
 }
@@ -51,6 +50,7 @@ void CLog::archive_save(std::forward_list <std::string> & string_list )
 
 std::streamoff CLog::last_sent_line_get()
 {
+    std::streamoff last_sent_line;
     std::string test ="";
     std::ifstream data_file;
     data_file.open("/etc/ERGO/last_line");
@@ -87,9 +87,7 @@ void CLog::archive_load(std::forward_list <std::string> &  data_list)
         std::getline(data_in,line);
         data_list.emplace_after(data_list.before_begin(),line);
       }
-
-      last_sent_line = data_in.tellg();
-      last_sent_line_save(last_sent_line);
+      last_sent_line_save( data_in.tellg());
       data_in.close();
 
 }

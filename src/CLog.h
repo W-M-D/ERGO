@@ -27,7 +27,6 @@ public:
 protected:
 private:
     CLog * Log;
-    std::streamoff last_sent_line;
 
 
 };
