@@ -501,8 +501,9 @@ long CERGO_GPS::join_4_bytes(std::deque<uint8_t> & data_list)
     union
     {
         long dword;
-        uint8_t  byte[4]={0};
+        uint8_t  byte[4];
     } long_union;
+    memset(&long_union, 0, sizeof(long_union));
 
     for(int i = 0; i < 4; i++)
     {
