@@ -168,9 +168,9 @@ std::string CERGO_GPS::packatize()
 
     time = GPSTOWtoUTC(towMsR/1000);
 
-    if(DEBUG_LEVEL >= 3 )
+    if(DEBUG_LEVEL > 2 )
     {
-          Log->add("Lat : %ld Long : %ld Alt : %ld",latitude,longitude,altitude );
+          Log->add("Lat : %d Long : %d Alt : %d",latitude,longitude,altitude );
     }
     if(Lattitude == 0 || Longitude == 0)
     {
