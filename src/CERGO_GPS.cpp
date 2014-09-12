@@ -168,7 +168,11 @@ std::string CERGO_GPS::packatize()
 
     time = GPSTOWtoUTC(towMsR/1000);
 
-    if(Lattitude == 0 || Longitude == 0 || Altitude == 0)
+    if(DEBUG_LEVEL >= 3 )
+    {
+          printf("%s%ld$s%ld", "Lat : ",Lattitude,"Long : ",Longitude );
+    }
+    if(Lattitude == 0 || Longitude == 0)
     {
           int length = 0;
           char c = '\0';
