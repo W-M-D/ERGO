@@ -36,17 +36,6 @@ void CLog::data_add(std::string & date, std::string & time, std::string & unit_i
   data_file.close();
 }
 
-void CLog::archive_save(std::forward_list <std::string> & string_list )
-{
-  std::ofstream data_file;
-  data_file.open("/etc/ERGO/ERGO_ARCHIVE.list",std::ios::out | std::ios::app);
-  while(!string_list.empty())
-  {
-    data_file << string_list.front() << '\n';
-    string_list.pop_front();
-  }
-  data_file.close();
-}
 
 std::streamoff CLog::last_sent_line_get()
 {

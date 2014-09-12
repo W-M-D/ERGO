@@ -170,7 +170,7 @@ std::string CERGO_GPS::packatize()
 
     if(DEBUG_LEVEL >= 3 )
     {
-          printf("%s%ld$s%ld", "Lat : ",Lattitude,"Long : ",Longitude );
+          Log->add("Lat : %ld Long : %ld Alt : %ld",latitude,longitude,altitude );
     }
     if(Lattitude == 0 || Longitude == 0)
     {
