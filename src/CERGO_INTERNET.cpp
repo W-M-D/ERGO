@@ -66,6 +66,7 @@ bool CERGO_INTERNET::send_string(const std::string & data_string)
         {
             Log->add("%s \n",sending_string.c_str());
         }
+        curl_easy_setopt(curl,CURLOPT_TIMEOUT,1);
         curl_easy_setopt(curl, CURLOPT_URL, sending_string.c_str());
 
         /* Perform the request, res will get the return code */
