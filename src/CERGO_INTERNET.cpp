@@ -19,7 +19,8 @@ bool CERGO_INTERNET::internet_availiable()
 
     if(curl)
     {
-        curl_easy_setopt(curl, CURLOPT_URL, "http://ergotelescope.org/postevent3.asp?dta=");
+        curl_easy_setopt(curl,CURLOPT_TIMEOUT,1);
+        curl_easy_setopt(curl,CURLOPT_URL, "http://ergotelescope.org/postevent3.asp?dta=");
         if ((res = curl_easy_perform(curl)) != CURLE_OK)
         {
             switch (res)
@@ -49,44 +50,7 @@ bool CERGO_INTERNET::internet_availiable()
     return false;
 }
 
-/*bool CERGO_INTERNET::internet_availiable()
-{
-    CURL *curl;
-    CURLcode res;
 
-    curl = curl_easy_init();
-
-    if(curl)
-    {
-        curl_easy_setopt(curl, CURLOPT_URL, "http://ergotelescope.org/postevent3.asp?dta=");
-        if ((res = curl_easy_perform(curl)) != CURLE_OK)
-        {
-            switch (res)
-            {
-            case CURLE_COULDNT_CONNECT:
-                curl_easy_cleanup(curl);
-                return false;
-
-            case CURLE_COULDNT_RESOLVE_HOST:
-                curl_easy_cleanup(curl);
-                return false;
-
-            case CURLE_COULDNT_RESOLVE_PROXY:
-                curl_easy_cleanup(curl);
-                return false;
-
-            default:
-                curl_easy_cleanup(curl);
-                return false;
-
-            }
-        }
-        curl_easy_cleanup(curl);
-        return false;
-    }
-    curl_easy_cleanup(curl);
-    return false;
-}*/
 
 bool CERGO_INTERNET::send_string(const std::string & data_string)
 {
