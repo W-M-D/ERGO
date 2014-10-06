@@ -8,13 +8,13 @@
 #include "CERGO_SERIAL.h"
 static const char* portName = "/dev/ttyAMA0";
 
-CERGO_SERIAL::CERGO_SERIAL(int debug_level, int V_TIME)
+CERGO_SERIAL::CERGO_SERIAL(int debug_level)
 {
     DEBUG_LEVEL = debug_level;
     if(DEBUG_LEVEL >= 1)
     {
           Log->add("serial port %d \n\n",tty_fd);
-    }    v_time = V_TIME;
+    }    v_time = 5;
     while(!serial_init(9600))
     {
         sleep(60);

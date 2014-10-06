@@ -1,6 +1,6 @@
 /*
 
-	This code works with boards based on AtMega168/328 and AtMega1280/2560 (Serial port 1)
+	This code has been tested on raspberry pis but should work on any linux system with a serial port, and gpio pins.
 	Written by Simon Tsaoussis and Rewritten in C++ by Matthew Weger
 	This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public
@@ -51,30 +51,22 @@
 
 int main(int argc, char *argv[])
 {
-    int DEBUG_LEVEL = 1;
-    int V_TIME  = 5;
+    int DEBUG_LEVEL = 0;
     if(argc >= 2)
     {
         DEBUG_LEVEL = atoi(argv[1]);
-        if(argc == 3)
-        {
-            V_TIME = atoi(argv[2]);
-        }
     }
 
     CLog * Log= new CLog; //inits the log
-    CERGO_SERIAL Serial(DEBUG_LEVEL,V_TIME) ; // inits the Serial class
+    CERGO_SERIAL Serial(DEBUG_LEVEL) ; // inits the Serial class
     CERGO_GPS GPS(DEBUG_LEVEL) ; // inits the GPS CLASS
 
     std::deque <uint8_t> test_list;
-
     int counter = 0;
     int data_int = 0;
     bool internet_light_set = false;
+
     //Adds restarted message to log
-
-
-
     Log ->add("\n############################################################ \n\n \t\t ERGO-PIXLE RESTARTED \n\n############################################################ \n ");
 
     Serial.setval_gpio(1,24);

@@ -36,7 +36,7 @@ void CLog::data_add(std::string & date, std::string & time, std::string & unit_i
   data_file.close();
 }
 
-
+// This function grabs the file offset of the last line that was sent.
 std::streamoff CLog::last_sent_line_get()
 {
     std::streamoff last_sent_line;
@@ -44,11 +44,12 @@ std::streamoff CLog::last_sent_line_get()
     std::ifstream data_file;
     data_file.open("/etc/ERGO/last_line");
     std::getline(data_file,test);
-    last_sent_line = (atoi(test.c_str()));
+    last_sent_line = (atoll(test.c_str()));
     data_file.close();
     return last_sent_line;
 }
 
+// this function saves the offset of the last sent line to a file
 void CLog::last_sent_line_save(std::streamoff ls)
 {
   std::ofstream data_file;
@@ -57,6 +58,7 @@ void CLog::last_sent_line_save(std::streamoff ls)
   data_file.close();
 }
 
+//this function loads the last line from the data file
 void CLog::archive_load(std::forward_list <std::string> &  data_list)
 {
       std::string line;

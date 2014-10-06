@@ -5,7 +5,8 @@ CERGO_INTERNET::CERGO_INTERNET(int debug_level)
     DEBUG_LEVEL = debug_level;
     MAX_INTERNET_TIMEOUT = 1000;
     first_pass = true;
-    check_archive = false;
+    internet_outage = true;
+    internet_connection = false;
 }
 
 
@@ -19,6 +20,7 @@ bool CERGO_INTERNET::internet_availiable()
 
     if(curl)
     {
+        curl_easy_setopt(curl,CURLOPT_TIMEOUT,3);
         curl_easy_setopt(curl, CURLOPT_URL, "http://ergotelescope.org/postevent3.asp?dta=");
         if ((res = curl_easy_perform(curl)) != CURLE_OK)
         {
@@ -49,77 +51,42 @@ bool CERGO_INTERNET::internet_availiable()
     return false;
 }
 
-/*bool CERGO_INTERNET::internet_availiable()
-{
-    CURL *curl;
-    CURLcode res;
-
-    curl = curl_easy_init();
-
-    if(curl)
-    {
-        curl_easy_setopt(curl, CURLOPT_URL, "http://ergotelescope.org/postevent3.asp?dta=");
-        if ((res = curl_easy_perform(curl)) != CURLE_OK)
-        {
-            switch (res)
-            {
-            case CURLE_COULDNT_CONNECT:
-                curl_easy_cleanup(curl);
-                return false;
-
-            case CURLE_COULDNT_RESOLVE_HOST:
-                curl_easy_cleanup(curl);
-                return false;
-
-            case CURLE_COULDNT_RESOLVE_PROXY:
-                curl_easy_cleanup(curl);
-                return false;
-
-            default:
-                curl_easy_cleanup(curl);
-                return false;
-
-            }
-        }
-        curl_easy_cleanup(curl);
-        return false;
-    }
-    curl_easy_cleanup(curl);
-    return false;
-}*/
-
 bool CERGO_INTERNET::send_string(const std::string & data_string)
 {
-    CURL * curl;
-    CURLcode res;
-    curl = curl_easy_init();
-    std::string sending_string = "http://ergotelescope.org/postevent3.asp?dta=";;
-    sending_string.append(data_string);
-
-    if(curl)
+    if(internet_connection)
     {
-        if(DEBUG_LEVEL >= 3)
-        {
-            Log->add("%s \n",sending_string.c_str());
-        }
-        curl_easy_setopt(curl, CURLOPT_URL, sending_string.c_str());
+      CURL * curl;
+      CURLcode res;
+      curl = curl_easy_init();
+      static std::string sending_string = "http://ergotelescope.org/postevent3.asp?dta=";;
+      sending_string.append(data_string);
 
-        /* Perform the request, res will get the return code */
-        res = curl_easy_perform(curl);
-        /* Check for errors */
-        if(res != CURLE_OK)
-        {
-            curl_easy_cleanup(curl);
-            return false;
-        }
+      if(curl)
+      {
+          if(DEBUG_LEVEL >= 3)
+          {
+              Log->add("%s \n",sending_string.c_str());
+          }
+          curl_easy_setopt(curl, CURLOPT_URL, sending_string.c_str());
 
-        /* always cleanup */
-        curl_easy_cleanup(curl);
-        return true;
+          /* Perform the request, res will get the return code */
+          res = curl_easy_perform(curl);
+          /* Check for errors */
+          if(res != CURLE_OK)
+          {
+              curl_easy_cleanup(curl);
+              return false;
+          }
+
+          /* always cleanup */
+          curl_easy_cleanup(curl);
+          return true;
+      }
+    /* always cleanup */
+      curl_easy_cleanup(curl);
     }
-  /* always cleanup */
-    curl_easy_cleanup(curl);
     return false;
+
 }
 
 void CERGO_INTERNET::reset_internet(clock_t & timer,int MAX_TIME)
@@ -165,26 +132,33 @@ void CERGO_INTERNET::manage_list()
 
         if(internet_availiable())
         {
-          if(check_archive)
+          if(internet_outage)
           {
+            internet_connection = true;
             Log->add("CONNECTION RESTORED");
-            check_archive = false;
+            internet_outage = false;
           }
           Log->archive_load(string_list);
+
           if(!string_list.empty())
           {
             if(send_string(URLEncode(string_list.front().c_str()))) // calls the function that sends data to the server returns true on success
             {
+                if(DEBUG_LEVEL >= 1)
+                {
+                  Log->add("Sent string : %s" , string_list.front().c_str());
+                }
                 string_list.pop_front();// pops the first element
             }
           }
         }
         else
         {
-          if(!check_archive) // if the archive flag is not set
+          if(!internet_outage) // if the outage flag is not set
           {
+              internet_connection = false;
               Log->add("ERROR :NO CONNECTION TO SERVER "); //there is probably no connection to the server
-              check_archive = true;
+              internet_outage = true;
           }
         }
 }

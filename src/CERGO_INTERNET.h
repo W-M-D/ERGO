@@ -18,11 +18,12 @@ public:
 
     int get_internet_availiable()
     {
-      return internet_availiable();
+      return internet_connection;
     }
 protected:
 private:
-    bool check_archive;
+    bool internet_outage;
+    bool internet_connection;
     bool first_pass;
     clock_t internet_timer;
     clock_t log_check; // last time it checked if the log was open.

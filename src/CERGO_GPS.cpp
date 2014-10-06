@@ -232,19 +232,7 @@ std::string CERGO_GPS::packatize()
     std::string nsD2 = nanosecond_packatize(nanosecondsD2);
 
     Log->data_add( date, time, unitid,  lat, lon , alt, nsD);
-    data_string.append(date);
-    data_string.append(" ");
-    data_string.append(time);
-    data_string.append(" ");
-    data_string.append(unitid);
-    data_string.append(" ");
-    data_string.append(lat);
-    data_string.append(" ");
-    data_string.append(lon);
-    data_string.append(" ");
-    data_string.append(alt);
-    data_string.append(" ");
-    data_string.append(nsD); //data_string = date + time + unitid + lat + lon + alt + ns;
+
     return(data_string);
 }
 
@@ -534,15 +522,15 @@ uint8_t CERGO_GPS::one_byte(std::deque<uint8_t> & data_list)
 {
     union
     {
-        int32_t nibble;
+        int32_t octet;
         uint8_t  byte[1];
-    } nibble_union;
-    memset(&nibble_union, 0, sizeof(nibble_union));
+    } octet_union;
+    memset(&octet_union, 0, sizeof(octet_union));
 
-    nibble_union.byte[0] = data_list.front();
+    octet_union.byte[0] = data_list.front();
     data_list.pop_front();
 
-    return(nibble_union.nibble);
+    return(octet_union.octet);
 }
 
 
