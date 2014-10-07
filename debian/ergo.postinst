@@ -23,7 +23,7 @@ case "$1" in
 
 		echo "removing references of ttyAMA0 from /boot/cmdline.txt"
 		mv /boot/cmdline.txt /boot/cmdline.bak
-		sed  's/\S*\ttyAMA0\\S*//g' /boot/cmdline.bak > /boot/cmdline.txt
+		sed 's/\S*\(ttyAMA0\)\S*//g' /boot/cmdline.bak > /boot/cmdline.txt
 		echo "done"
 
 		echo "removing references of ttyAMA0 from /etc/inittab"
