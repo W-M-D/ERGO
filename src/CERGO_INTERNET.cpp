@@ -58,7 +58,7 @@ bool CERGO_INTERNET::send_string(const std::string & data_string)
       CURL * curl;
       CURLcode res;
       curl = curl_easy_init();
-      static std::string sending_string = "http://ergotelescope.org/postevent3.asp?dta=";;
+      std::string sending_string = "http://ergotelescope.org/postevent3.asp?dta=";
       sending_string.append(data_string);
 
       if(curl)
