@@ -64,27 +64,30 @@ void CLog::archive_load(std::forward_list <std::string> &  data_list)
       std::string line;
       std::ifstream data_in;
       data_in.open( "/etc/ERGO/ERGO_DATA.csv");
-      if(!data_in.eof())
+      for(int i=0 ;i < 5;i++)
       {
-                  data_in.seekg(last_sent_line_get());
-                  data_in.clear();
-      }
-      else
-      {
-        return;
-      }
+          if(!data_in.eof())
+          {
+                      data_in.seekg(last_sent_line_get());
+                      data_in.clear();
+          }
+          else
+          {
+            return;
+          }
 
-        std::getline(data_in,line);
-        if(!line.empty())
-        {
-            data_list.emplace_after(data_list.before_begin(),line);
-        }
+            std::getline(data_in,line);
+            if(!line.empty())
+            {
+                data_list.emplace_after(data_list.before_begin(),line);
+            }
 
-      int g_int = data_in.tellg();
+          int g_int = data_in.tellg();
 
-      if(g_int!=-1)
-      {
-        last_sent_line_save( g_int);
+          if(g_int!=-1)
+          {
+            last_sent_line_save( g_int);
+          }
       }
       data_in.close();
 

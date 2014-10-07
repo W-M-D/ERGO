@@ -140,15 +140,18 @@ void CERGO_INTERNET::manage_list()
           }
           Log->archive_load(string_list);
 
-          if(!string_list.empty())
+          for(int i=0 ; i < 5; i++)
           {
-            if(send_string(URLEncode(string_list.front().c_str()))) // calls the function that sends data to the server returns true on success
+            if(!string_list.empty())
             {
-                if(DEBUG_LEVEL >= 1)
-                {
-                  Log->add("Sent string : %s" , string_list.front().c_str());
-                }
-                string_list.pop_front();// pops the first element
+              if(send_string(URLEncode(string_list.front().c_str()))) // calls the function that sends data to the server returns true on success
+              {
+                  if(DEBUG_LEVEL >= 1)
+                  {
+                    Log->add("Sent string : %s" , string_list.front().c_str());
+                  }
+                  string_list.pop_front();// pops the first element
+              }
             }
           }
         }
