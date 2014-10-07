@@ -21,16 +21,19 @@ set -e
 case "$1" in
     configure)
 
-		echo "removing references of ttyAMA0 from /boot/cmdline.txt"
+		echo "removing references of ttyAMA0 from /boot/cmdline.txt and backingup old cmdline.txt"
 		mv /boot/cmdline.txt /boot/cmdline.bak
 		sed 's/\S*\(ttyAMA0\)\S*//g' /boot/cmdline.bak > /boot/cmdline.txt
 		echo "done"
 
-		echo "removing references of ttyAMA0 from /etc/inittab"
+		echo "removing references of ttyAMA0 from /etc/inittab and backing up old inittab"
 		mv /etc/inittab /etc/inittab.bak
 		sed '/ttyAMA0/d' /etc/inittab.bak > /etc/inittab
 		echo "done"
-
+		
+		echo "removing repeted consecutive lines from /etc/ERGO/ERGO_LOG.log"
+		sed '$!N; /^\(.*\)\n\1$/!P; D' /etc/ERGO/ERGO_LOG.log
+		echo "done"
     ;;
 
     abort-upgrade|abort-remove|abort-deconfigure)
