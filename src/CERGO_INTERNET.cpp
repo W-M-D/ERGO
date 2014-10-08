@@ -159,7 +159,7 @@ void CERGO_INTERNET::manage_list()
         }
         else
         {
-          if(internet_outage) // if the outage flag is not set
+          if(!internet_outage) // if the outage flag is not set
           {
               internet_connection = false;
               if(internet_int == 1)
@@ -182,7 +182,7 @@ void CERGO_INTERNET::manage_list()
               {
                 Log->add("ERROR :INTERNET UNKNOWN ERROR 2"); //there is probably no connection to the server
               }
-              internet_outage = true;
+              //internet_outage = true;
           }
         }
 }
