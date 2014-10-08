@@ -168,9 +168,10 @@ std::string CERGO_GPS::packatize()
 
     time = GPSTOWtoUTC(towMsR/1000);
 
-    if(DEBUG_LEVEL > 2 )
+    if(DEBUG_LEVEL >= 2 )
     {
           Log->add("Lat : %d Long : %d Alt : %d",latitude,longitude,altitude );
+          Log->add("Fix = %d numsats= %s",gps_fix,gps_sat_numbers);
     }
 
 
