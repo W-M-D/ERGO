@@ -86,6 +86,13 @@ int main(int argc, char *argv[])
                 test_list = data_list;
             }
             data_int =GPS.Read_data(data_list);
+             if(data_int == 5)
+            {
+                if(DEBUG_LEVEL >=2)
+                {
+                    printf("fix data\n");
+                }
+            }
             if(data_int == 4)
             {
                 if(DEBUG_LEVEL >=2)

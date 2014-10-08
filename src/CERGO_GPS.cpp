@@ -306,6 +306,7 @@ int CERGO_GPS::parse_ubx_gps(std::deque <uint8_t> & data_list)
               else
                 gps_fix=false; //invalid position
               gps_sat_numbers=data_list[47];                    //Number of sats...
+              return 5;
               break;
             case 0x12:// ID NAV-VELNED
             break;
