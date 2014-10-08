@@ -8,6 +8,9 @@ CERGO_GPS::CERGO_GPS(int debug_level)
     unit_id_file.open("/etc/ERGO/unit_id");
     getline(unit_id_file,unitid);
     unit_id_file.close();
+    Lattitude =0;
+    Longitude = 0;
+    Altitude = 0;
 }
 
 ///******************************************************************///
@@ -171,7 +174,7 @@ std::string CERGO_GPS::packatize()
     if(DEBUG_LEVEL >= 2 )
     {
           Log->add("Lat : %d Long : %d Alt : %d",latitude,longitude,altitude );
-          Log->add("Fix = %d numsats= %s",gps_fix,gps_sat_numbers);
+          Log->add("Fix = %d numsats= %d",gps_fix,gps_sat_numbers);
     }
 
 
