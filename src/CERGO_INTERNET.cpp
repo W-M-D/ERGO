@@ -19,8 +19,7 @@ int CERGO_INTERNET::internet_availiable()
 
     if(curl)
     {
-        curl_easy_setopt(curl,CURLOPT_CONNECTTIMEOUT,1L);
-        curl_easy_setopt(curl,CURLOPT_TIMEOUT,6L);
+        curl_easy_setopt(curl,CURLOPT_CONNECTTIMEOUT,2L);
         curl_easy_setopt(curl,CURLOPT_FORBID_REUSE,1L);
         curl_easy_setopt(curl,CURLOPT_CONNECT_ONLY ,1L);
         curl_easy_setopt(curl, CURLOPT_URL, "data.ergotelescope.org");
@@ -77,7 +76,7 @@ bool CERGO_INTERNET::send_string(const std::string & data_string)
           }
           curl_easy_setopt(curl,CURLOPT_TIMEOUT,3);
           curl_easy_setopt(curl, CURLOPT_URL, sending_string.c_str());
-
+          curl_easy_setopt(curl,CURLOPT_CONNECT_ONLY ,1L);
           /* Perform the request, res will get the return code */
           res = curl_easy_perform(curl);
           /* Check for errors */
