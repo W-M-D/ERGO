@@ -10,7 +10,7 @@ class CERGO_INTERNET
 public:
     CERGO_INTERNET(int);
     bool send_string(const std::string & data_string);
-    bool internet_availiable();
+    int internet_availiable();
     void manage_list();
     std::string URLEncode(const char*);
     void reset_internet(clock_t &, int );

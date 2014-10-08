@@ -11,44 +11,43 @@ CERGO_INTERNET::CERGO_INTERNET(int debug_level)
 
 
 
-bool CERGO_INTERNET::internet_availiable()
+int CERGO_INTERNET::internet_availiable()
 {
     CURL *curl;
     CURLcode res;
-
     curl = curl_easy_init();
 
     if(curl)
     {
-        curl_easy_setopt(curl,CURLOPT_TIMEOUT,3);
-        curl_easy_setopt(curl, CURLOPT_URL, "http://ergotelescope.org/postevent3.asp?dta=");
+        curl_easy_setopt(curl,CURLOPT_TIMEOUT,2);
+        curl_easy_setopt(curl, CURLOPT_URL, "data.ergotelescope.org");
         if ((res = curl_easy_perform(curl)) != CURLE_OK)
         {
             switch (res)
             {
             case CURLE_COULDNT_CONNECT:
                 curl_easy_cleanup(curl);
-                return false;
+                return 1;
 
             case CURLE_COULDNT_RESOLVE_HOST:
                 curl_easy_cleanup(curl);
-                return false;
+                return 2;
 
             case CURLE_COULDNT_RESOLVE_PROXY:
                 curl_easy_cleanup(curl);
-                return false;
+                return 3;
 
             default:
                 curl_easy_cleanup(curl);
-                return false;
+                return 4;
 
             }
         }
         curl_easy_cleanup(curl);
-        return true;
+        return 0;
     }
     curl_easy_cleanup(curl);
-    return false;
+    return 5;
 }
 
 bool CERGO_INTERNET::send_string(const std::string & data_string)
@@ -67,6 +66,7 @@ bool CERGO_INTERNET::send_string(const std::string & data_string)
           {
               Log->add("%s \n",sending_string.c_str());
           }
+          curl_easy_setopt(curl,CURLOPT_TIMEOUT,3);
           curl_easy_setopt(curl, CURLOPT_URL, sending_string.c_str());
 
           /* Perform the request, res will get the return code */
@@ -129,8 +129,8 @@ void CERGO_INTERNET::reset_internet(clock_t & timer,int MAX_TIME)
 void CERGO_INTERNET::manage_list()
 {
         static std::forward_list <std::string> string_list;
-
-        if(internet_availiable())
+        int internet_int= internet_availiable();
+        if(internet_int == 0)
         {
           if(internet_outage)
           {
@@ -160,7 +160,26 @@ void CERGO_INTERNET::manage_list()
           if(!internet_outage) // if the outage flag is not set
           {
               internet_connection = false;
-              Log->add("ERROR :NO CONNECTION TO SERVER "); //there is probably no connection to the server
+              if(internet_int == 1)
+              {
+                Log->add("ERROR : INTERNET COULDNT_CONNECT "); //there is probably no connection to the server
+              }
+              else if(internet_int == 2)
+              {
+                Log->add("ERROR :INTERNET COULDNT_RESOLVE_HOST "); //there is probably no connection to the server
+              }
+              else if(internet_int == 3)
+              {
+                Log->add("ERROR :INTERNET CURLE_COULDNT_RESOLVE_PROXY"); //there is probably no connection to the server
+              }
+              else if(internet_int == 4)
+              {
+                Log->add("ERROR :INTERNET UNKNOWN ERROR 1"); //there is probably no connection to the server
+              }
+              else if(internet_int == 5)
+              {
+                Log->add("ERROR :INTERNET UNKNOWN ERROR 2"); //there is probably no connection to the server
+              }
               internet_outage = true;
           }
         }
