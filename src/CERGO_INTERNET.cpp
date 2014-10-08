@@ -19,8 +19,8 @@ int CERGO_INTERNET::internet_availiable()
 
     if(curl)
     {
-        curl_easy_setopt(curl,CURLOPT_CONNECTTIMEOUT_MS,300);
-        curl_easy_setopt(curl,CURLOPT_TIMEOUT,5);
+        curl_easy_setopt(curl,CURLOPT_CONNECTTIMEOUT_MS,500);
+        curl_easy_setopt(curl,CURLOPT_TIMEOUT,6);
         curl_easy_setopt(curl, CURLOPT_URL, "data.ergotelescope.org");
         while ((res = curl_easy_perform(curl)) != CURLE_OK)
         {
@@ -164,8 +164,8 @@ void CERGO_INTERNET::manage_list()
         }
         else
         {
-        //  if(!internet_outage) // if the outage flag is not set
-//          {
+          if(!internet_outage) // if the outage flag is not set
+          {
               internet_connection = false;
               if(internet_int == 1)
               {
@@ -188,7 +188,7 @@ void CERGO_INTERNET::manage_list()
                 Log->add("ERROR :INTERNET UNKNOWN ERROR"); //there is probably no connection to the server
               }
               internet_outage = true;
-          //}
+          }
         }
 }
 
