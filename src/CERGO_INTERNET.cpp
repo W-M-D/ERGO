@@ -13,37 +13,42 @@ CERGO_INTERNET::CERGO_INTERNET(int debug_level)
 
 int CERGO_INTERNET::internet_availiable()
 {
-    CURL *curl;
+    CURL* curl;
     CURLcode res;
     curl = curl_easy_init();
 
     if(curl)
     {
-        curl_easy_setopt(curl,CURLOPT_TIMEOUT,1);
+        curl_easy_setopt(curl,CURLOPT_CONNECTTIMEOUT_MS,400);
+        curl_easy_setopt(curl,CURLOPT_TIMEOUT,3);
         curl_easy_setopt(curl, CURLOPT_URL, "data.ergotelescope.org");
         while ((res = curl_easy_perform(curl)) != CURLE_OK)
         {
-            switch (res)
+            if(res == CURLE_COULDNT_CONNECT)
             {
-            case CURLE_COULDNT_CONNECT:
                 curl_easy_cleanup(curl);
                 return 1;
-                break;
-            case CURLE_COULDNT_RESOLVE_HOST:
+            }
+            else if (res ==CURLE_COULDNT_RESOLVE_HOST )
+            {
                 curl_easy_cleanup(curl);
                 return 2;
-                break;
-
-            case CURLE_COULDNT_RESOLVE_PROXY:
+            }
+            else if(res == CURLE_COULDNT_RESOLVE_PROXY)
+            {
                 curl_easy_cleanup(curl);
                 return 3;
-                break;
-
-            case CURLE_OPERATION_TIMEDOUT:
+            }
+            else if (res == CURLE_OPERATION_TIMEDOUT)
+            {
                 curl_easy_cleanup(curl);
                 return 4;
-                break;
-              }
+            }
+            else
+            {
+              curl_easy_cleanup(curl);
+              return 5;
+            }
         }
         curl_easy_cleanup(curl);
         return 0;
