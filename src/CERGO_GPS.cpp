@@ -172,68 +172,19 @@ std::string CERGO_GPS::packatize()
     {
           Log->add("Lat : %d Long : %d Alt : %d",latitude,longitude,altitude );
     }
-    if(Lattitude == 0 || Longitude == 0)
-    {
-          int length = 0;
-          char c = '\0';
-          std::string value;
-          std::ifstream file ( "/etc/ERGO/ERGO_DATA.csv" );
-
-          length = file.tellg();//Get file size
-
-        // loop backward over the file
-
-        for(int i = length-2; i > 0; i-- )
-        {
-            file.seekg(i);
-            c = file.get();
-            if( c == '\r' || c == '\n' )//new line?
-            {
-              for ( int x = 0;  x < 7; x++)
-              {
-                    getline ( file, value, ' ' ); // read a string until next comma: http://www.cplusplus.com/reference/string/getline/
-
-                    if(DEBUG_LEVEL >=2)
-                    {
-                      Log->add("Value = %s \n",value.c_str());
-                    }
-                    if(i == 0)
-                    {
-                      date = value;
-                    }
-                    if(i == 3)
-                    {
-                        lat = value;
-                    }
-                    else if(i == 4)
-                    {
-                      lon = value;
-                    }
-                    else if(i == 5)
-                    {
-                      alt = value;
-                    }
-              }
-            }
-        }
 
 
-    }
-    else
-    {
-        date = date_packatize();
-        lat = cordinate_packatize(latitude,100000000);
-        lon = cordinate_packatize(longitude,100000000);
-        alt =  cordinate_packatize(altitude,1000000); //-0007736
-    }
-
-
+    date = date_packatize();
+    lat = cordinate_packatize(latitude,100000000);
+    lon = cordinate_packatize(longitude,100000000);
+    alt =  cordinate_packatize(altitude,1000000); //-0007736
     std::string nsD = nanosecond_packatize(nanosecondsD);
     std::string nsD2 = nanosecond_packatize(nanosecondsD2);
 
     Log->data_add( date, time, unitid,  lat, lon , alt, nsD);
 
     return(data_string);
+
 }
 
 std::string CERGO_GPS::date_packatize()
@@ -333,11 +284,13 @@ int CERGO_GPS::parse_ubx_gps(std::deque <uint8_t> & data_list)
                 data_list.pop_front();//removes the ID
                 data_list.pop_front();//removes length max
                 data_list.pop_front();//removes length min
-
-                Time = join_4_bytes(data_list); // ms Time of week
-                Longitude = join_4_bytes(data_list); // lon*10000000
-                Lattitude = join_4_bytes(data_list); // lat*10000000
-                Altitude = join_4_bytes(data_list);  // elipsoid heigth mm
+                if(gps_fix)
+                {
+                  Time = join_4_bytes(data_list); // ms Time of week
+                  Longitude = join_4_bytes(data_list); // lon*10000000
+                  Lattitude = join_4_bytes(data_list); // lat*10000000
+                  Altitude = join_4_bytes(data_list);  // elipsoid heigth mm
+                }
                 data_list.pop_front();//pops checksum a
                 data_list.pop_front();//pops checksum b
                 return 4;
@@ -345,7 +298,15 @@ int CERGO_GPS::parse_ubx_gps(std::deque <uint8_t> & data_list)
             case 0x03://ID NAV-STATUS
             break;
             case 0x06://ID NAV-SOL
-            break;
+              data_list.pop_front();//removes the ID
+              data_list.pop_front();//removes length max
+              data_list.pop_front();//removes length min
+              if((data_list[10] >= 0x03)&&(data_list[11]&0x01))
+                gps_fix=true; //valid position
+              else
+                gps_fix=false; //invalid position
+              gps_sat_numbers=data_list[47];                    //Number of sats...
+              break;
             case 0x12:// ID NAV-VELNED
             break;
         }

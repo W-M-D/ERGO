@@ -58,6 +58,7 @@ void CLog::last_sent_line_save(std::streamoff ls)
   data_file.close();
 }
 
+
 //this function loads the last line from the data file
 void CLog::archive_load(std::forward_list <std::string> &  data_list)
 {
