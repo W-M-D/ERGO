@@ -39,7 +39,7 @@ int CERGO_INTERNET::internet_availiable()
 
             default:
                 curl_easy_cleanup(curl);
-                return 4;
+                return 0;
 
             }
         }
