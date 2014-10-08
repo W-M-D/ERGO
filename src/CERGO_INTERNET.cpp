@@ -19,7 +19,7 @@ int CERGO_INTERNET::internet_availiable()
 
     if(curl)
     {
-        curl_easy_setopt(curl,CURLOPT_TIMEOUT,2);
+        curl_easy_setopt(curl,CURLOPT_TIMEOUT,3);
         curl_easy_setopt(curl, CURLOPT_URL, "data.ergotelescope.org");
         while ((res = curl_easy_perform(curl)) != CURLE_OK)
         {
@@ -38,7 +38,12 @@ int CERGO_INTERNET::internet_availiable()
                 curl_easy_cleanup(curl);
                 return 3;
                 break;
-            }
+
+            case CURLE_OPERATION_TIMEDOUT:
+                curl_easy_cleanup(curl);
+                return 4;
+                break;
+              }
         }
         curl_easy_cleanup(curl);
         return 0;
