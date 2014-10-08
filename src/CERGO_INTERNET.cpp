@@ -28,19 +28,16 @@ int CERGO_INTERNET::internet_availiable()
             case CURLE_COULDNT_CONNECT:
                 curl_easy_cleanup(curl);
                 return 1;
-
+                break;
             case CURLE_COULDNT_RESOLVE_HOST:
                 curl_easy_cleanup(curl);
                 return 2;
+                break;
 
             case CURLE_COULDNT_RESOLVE_PROXY:
                 curl_easy_cleanup(curl);
                 return 3;
-
-            default:
-                curl_easy_cleanup(curl);
-                return 0;
-
+                break;
             }
         }
         curl_easy_cleanup(curl);
