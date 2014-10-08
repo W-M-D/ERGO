@@ -159,7 +159,7 @@ void CERGO_INTERNET::manage_list()
         }
         else
         {
-          if(!internet_outage) // if the outage flag is not set
+          if(internet_outage) // if the outage flag is not set
           {
               internet_connection = false;
               if(internet_int == 1)
