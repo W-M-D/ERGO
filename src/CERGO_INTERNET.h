@@ -10,7 +10,7 @@ class CERGO_INTERNET
 public:
     CERGO_INTERNET(int);
     bool send_string(const std::string & data_string);
-    int internet_availiable();
+    int internet_availiable(long,bool);
     void manage_list();
     std::string URLEncode(const char*);
     void reset_internet(clock_t &, int );
@@ -24,6 +24,7 @@ protected:
 private:
     bool internet_outage;
     bool internet_connection;
+    int internet_timeout;
     bool first_pass;
     clock_t internet_timer;
     clock_t log_check; // last time it checked if the log was open.

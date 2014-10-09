@@ -86,7 +86,7 @@ private:
     int DEBUG_LEVEL;
     bool NewData;
     bool pos_data;
-    bool gps_fix;
+    uint8_t gps_fix;
     int gps_sat_numbers;
     uint8_t ch;//marker channel 0 or 1
     uint8_t flags;//Bitmask
