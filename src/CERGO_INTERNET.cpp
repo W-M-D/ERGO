@@ -11,7 +11,7 @@ CERGO_INTERNET::CERGO_INTERNET(int debug_level)
 
 
 
-int CERGO_INTERNET::internet_availiable()
+int CERGO_INTERNET::internet_availiable(long internet_timer,bool internet_switch)
 {
     CURL* curl;
     CURLcode res;
@@ -19,7 +19,7 @@ int CERGO_INTERNET::internet_availiable()
 
     if(curl)
     {
-        curl_easy_setopt(curl,CURLOPT_CONNECTTIMEOUT,3L);
+        curl_easy_setopt(curl,CURLOPT_CONNECTTIMEOUT,internet_timer);
         curl_easy_setopt(curl,CURLOPT_FORBID_REUSE,1L);
         curl_easy_setopt(curl,CURLOPT_CONNECT_ONLY ,1L);
         curl_easy_setopt(curl, CURLOPT_URL, "data.ergotelescope.org");
@@ -43,6 +43,13 @@ int CERGO_INTERNET::internet_availiable()
             else if (res == CURLE_OPERATION_TIMEDOUT)
             {
                 curl_easy_cleanup(curl);
+                if(internet_connection&&internet_switch)
+                {
+                  if(internet_availiable(5L,false) == 0)
+                  {
+                    return 0;
+                  }
+                }
                 return 4;
             }
             else
@@ -135,7 +142,7 @@ void CERGO_INTERNET::reset_internet(clock_t & timer,int MAX_TIME)
 void CERGO_INTERNET::manage_list()
 {
         static std::forward_list <std::string> string_list;
-        int internet_int= internet_availiable();
+        int internet_int= internet_availiable(3L,true);
         if(internet_int == 0)
         {
           if(internet_outage)
