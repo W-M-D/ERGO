@@ -378,20 +378,18 @@ int CERGO_GPS::parse_ubx_gps(std::deque <uint8_t> & data_list)
               data_list.pop_front();
               data_list.pop_front();
               data_list.pop_front();
-              if(gps_fix >= 0x02 || gps_sat_numbers >= 1)
-              {
-                ch = one_byte(data_list);//marker channel 0 or 1
-                flags = one_byte(data_list);//Bitmask
-                 counter = join_2_bytes(data_list);
-                 wnR = join_2_bytes(data_list);
-                 wnF = join_2_bytes(data_list);
-                 towMsR = join_4_bytes(data_list);
-                 towSubMsR = join_4_bytes(data_list);
-                 towMsF = join_4_bytes(data_list);
-                 towSubMsF = join_4_bytes(data_list);
-                 accEst = join_4_bytes(data_list);
-                 checksum = join_2_bytes(data_list);
-              }
+              ch = one_byte(data_list);//marker channel 0 or 1
+              flags = one_byte(data_list);//Bitmask
+               counter = join_2_bytes(data_list);
+               wnR = join_2_bytes(data_list);
+               wnF = join_2_bytes(data_list);
+               towMsR = join_4_bytes(data_list);
+               towSubMsR = join_4_bytes(data_list);
+               towMsF = join_4_bytes(data_list);
+               towSubMsF = join_4_bytes(data_list);
+               accEst = join_4_bytes(data_list);
+               checksum = join_2_bytes(data_list);
+
           break;
         }
         return 3;
