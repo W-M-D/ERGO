@@ -63,7 +63,7 @@ void CERGO_INTERNET::manage_list()
       while(true)
       {
         static std::forward_list <std::string> string_list;
-        usleep(3000);
+        usleep(10000);
         if(string_list.empty())
         {
                 Log->archive_load(string_list);
