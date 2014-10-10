@@ -60,73 +60,42 @@ bool CERGO_INTERNET::send_string(const std::string & data_string)
 
 void CERGO_INTERNET::manage_list()
 {
-        static std::forward_list <std::string> string_list;
-        if(!string_list.empty())
+    while(true)
+    {
+      static std::forward_list <std::string> string_list;
+      if(string_list.empty())
+      {
+              Log->archive_load(string_list);
+      }
+      while(!string_list.empty())
+      {
+        if(send_string(URLEncode(string_list.front().c_str()))) // calls the function that sends data to the server returns true on success
         {
-          mtx.lock();
-          while(!string_list.empty())
-          {
-            if(send_string(URLEncode(string_list.front().c_str()))) // calls the function that sends data to the server returns true on success
+            if(DEBUG_LEVEL >= 1)
             {
-                if(DEBUG_LEVEL >= 1)
-                {
-                  Log->add("Sent string : %s" , string_list.front().c_str());
-                }
-                if(internet_outage)
-                {
-                  internet_connection = true;
-                  Log->add("CONNECTION RESTORED");
-                  internet_outage = false;
-                }
-              string_list.pop_front();// pops the first element
-              mtx.unlock();
+              Log->add("Sent string : %s" , string_list.front().c_str());
             }
-            else
+            if(internet_outage)
             {
-              if(!internet_outage) // if the outage flag is not set
-              {
-                  internet_connection = false;
-                  Log->archive_load(string_list);
-                  Log->add("ERROR: COULD NOT SEND STRING");
-                  internet_outage = true;
-              }
-              break;
+              internet_connection = true;
+              Log->add("CONNECTION RESTORED");
+              internet_outage = false;
             }
-          }
+          string_list.pop_front();// pops the first element
         }
         else
         {
-          mtx.lock();
-          Log->archive_load(string_list);
-          while(!string_list.empty())
+          if(!internet_outage) // if the outage flag is not set
           {
-            if(send_string(URLEncode(string_list.front().c_str()))) // calls the function that sends data to the server returns true on success
-            {
-                if(DEBUG_LEVEL >= 1)
-                {
-                  Log->add("Sent string : %s" , string_list.front().c_str());
-                }
-                if(internet_outage)
-                {
-                  internet_connection = true;
-                  Log->add("CONNECTION RESTORED");
-                  internet_outage = false;
-                }
-              string_list.pop_front();// pops the first element
-              mtx.unlock();
-            }
-            else
-            {
-              if(!internet_outage) // if the outage flag is not set
-              {
-                  internet_connection = false;
-                  Log->archive_load(string_list);
-                  internet_outage = true;
-              }
-              break;
-            }
+              internet_connection = false;
+              Log->archive_load(string_list);
+              Log->add("ERROR: COULD NOT SEND STRING");
+              internet_outage = true;
           }
+          break;
         }
+      }
+    }
 }
 
 std::string CERGO_INTERNET::URLEncode(const char* msg)

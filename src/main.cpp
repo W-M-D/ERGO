@@ -75,10 +75,10 @@ int main(int argc, char *argv[])
     Serial.serial_setup(1337);
     std::deque <uint8_t> data_list; // list to store serial data
     std::stringstream test_string;
+    std::thread ([&] { Internet->manage_list(); }).detach();
 
     while(true) // main management loop
     {
-        std::thread ([&] { Internet->manage_list(); }).detach();
         counter = Serial.data_read(data_list); // checks for incomming data
         while(!data_list.empty())
         {
