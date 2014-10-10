@@ -230,7 +230,6 @@ std::string CERGO_GPS::packatize()
     std::string nsD2 = nanosecond_packatize(nanosecondsD2);
 
     Log->data_add( date, time, unitid,  lat, lon , alt, nsD);
-    Log->set_check_archive(true);
     return(data_string);
 
 }

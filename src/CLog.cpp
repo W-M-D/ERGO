@@ -26,7 +26,6 @@ CLog::CLog()
 {
   system("mkdir -p /etc/ERGO/");
   last_sent_line_get();
-  check_archive = true;
 }
 
 void CLog::data_add(std::string & date, std::string & time, std::string & unit_id, std::string & lat,std::string & lon,std::string & alt,std::string & nanoseconds)
@@ -34,6 +33,7 @@ void CLog::data_add(std::string & date, std::string & time, std::string & unit_i
   std::ofstream data_file;
   data_file.open("/etc/ERGO/ERGO_DATA.csv",std::ios_base::out | std::ios_base::app);
   data_file << date << ' ' << time << ' ' << unit_id << ' ' << lat << ' ' << lon << ' ' << alt << ' ' << nanoseconds << '\n';
+  check_archive = true;
   data_file.close();
 }
 
