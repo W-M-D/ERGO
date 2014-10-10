@@ -65,6 +65,7 @@ void CERGO_INTERNET::manage_list()
         {
           while(!string_list.empty())
           {
+            mtx.lock();
             if(send_string(URLEncode(string_list.front().c_str()))) // calls the function that sends data to the server returns true on success
             {
                 if(DEBUG_LEVEL >= 1)
@@ -77,7 +78,6 @@ void CERGO_INTERNET::manage_list()
                   Log->add("CONNECTION RESTORED");
                   internet_outage = false;
                 }
-              mtx.lock();
               string_list.pop_front();// pops the first element
               mtx.unlock();
             }
@@ -99,6 +99,7 @@ void CERGO_INTERNET::manage_list()
           Log->archive_load(string_list);
           while(!string_list.empty())
           {
+            mtx.lock();
             if(send_string(URLEncode(string_list.front().c_str()))) // calls the function that sends data to the server returns true on success
             {
                 if(DEBUG_LEVEL >= 1)
@@ -111,7 +112,6 @@ void CERGO_INTERNET::manage_list()
                   Log->add("CONNECTION RESTORED");
                   internet_outage = false;
                 }
-              mtx.lock();
               string_list.pop_front();// pops the first element
               mtx.unlock();
             }
