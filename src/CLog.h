@@ -7,6 +7,7 @@
 #include <sstream>
 #include <cstdio>
 #include <iostream>
+#include <atomic>         // std::atomic, std::atomic_flag, ATOMIC_FLAG_INIT
 #include <forward_list>
 class CLog
 {
@@ -25,18 +26,11 @@ public:
     bool is_empty(std::ifstream& pFile);
 
     virtual ~CLog();
-    void set_check_archive(bool CHECK_ARCHIVE)
-    {
-      check_archive = CHECK_ARCHIVE;
-    }
-    bool get_check_archive()
-    {
-      return check_archive;
-    }
+
 protected:
 private:
     CLog * Log;
-    bool check_archive;
+    std::atomic<bool> check_archive;
     std::mutex check_archive_mute;           // mutex for critical section
 
 };
