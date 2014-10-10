@@ -60,9 +60,9 @@ bool CERGO_INTERNET::send_string(const std::string & data_string)
 
 void CERGO_INTERNET::manage_list()
 {
-    while(true)
-    {
+
       static std::forward_list <std::string> string_list;
+      usleep(500);
       if(string_list.empty())
       {
               Log->archive_load(string_list);
@@ -95,7 +95,6 @@ void CERGO_INTERNET::manage_list()
           break;
         }
       }
-    }
 }
 
 std::string CERGO_INTERNET::URLEncode(const char* msg)
