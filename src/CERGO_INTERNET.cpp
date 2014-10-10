@@ -61,10 +61,12 @@ bool CERGO_INTERNET::send_string(const std::string & data_string)
 
 void CERGO_INTERNET::manage_list()
 {
+      std::forward_list <std::string> string_list;
+      string_list.emplace_front(" ");
+      string_list.emplace_front(" ");
       while(true)
       {
-        static std::forward_list <std::string> string_list;
-        usleep(500);
+        usleep(10000);
         if(check_archive && string_list.empty())
         {
                 mtx.lock();
