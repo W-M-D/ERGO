@@ -79,6 +79,7 @@ int main(int argc, char *argv[])
 
     while(true) // main management loop
     {
+        usleep(200);
         counter = Serial.data_read(data_list); // checks for incomming data
         while(!data_list.empty())
         {
