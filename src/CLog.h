@@ -1,6 +1,7 @@
 #ifndef CLOG_H
 #define CLOG_H
 #include <ctime>
+#include <mutex>          // std::mutex
 #include <string.h>
 #include <fstream>
 #include <sstream>
@@ -32,6 +33,7 @@ protected:
 private:
     CLog * Log;
     bool check_archive;
+    std::mutex check_archive_mute;           // mutex for critical section
 
 };
 
