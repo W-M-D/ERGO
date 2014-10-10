@@ -18,6 +18,7 @@ public:
     void archive_save(std::forward_list <std::string> &  );
     bool archive_load(std::forward_list <std::string> &  );
     std::streamoff last_sent_line_get();
+    void reset_last_offset();
     void last_sent_line_save(std::streamoff ls);
 
     void add(const char * text , ...);
@@ -29,6 +30,7 @@ public:
 protected:
 private:
     CLog * Log;
+    std::streamoff last_offset;
 
 };
 
