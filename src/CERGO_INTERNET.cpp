@@ -77,7 +77,9 @@ void CERGO_INTERNET::manage_list()
                   Log->add("CONNECTION RESTORED");
                   internet_outage = false;
                 }
+              mtx.lock();
               string_list.pop_front();// pops the first element
+              mtx.unlock();
             }
             else
             {
@@ -109,7 +111,9 @@ void CERGO_INTERNET::manage_list()
                   Log->add("CONNECTION RESTORED");
                   internet_outage = false;
                 }
+              mtx.lock();
               string_list.pop_front();// pops the first element
+              mtx.unlock();
             }
             else
             {
