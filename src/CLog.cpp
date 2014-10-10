@@ -63,7 +63,7 @@ void CLog::last_sent_line_save(std::streamoff ls)
 //this function loads the last line from the data file
 void CLog::archive_load(std::forward_list <std::string> &  data_list)
 {
-      if(check_archive)
+      if(get_check_archive())
       {
         std::string line;
         std::ifstream data_in;

@@ -29,6 +29,10 @@ public:
     {
       check_archive = CHECK_ARCHIVE;
     }
+    bool get_check_archive()
+    {
+      return check_archive;
+    }
 protected:
 private:
     CLog * Log;
