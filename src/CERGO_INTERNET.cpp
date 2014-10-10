@@ -95,10 +95,8 @@ void CERGO_INTERNET::manage_list()
                 Log->archive_load(string_list);
                 Log->add("ERROR: COULD NOT SEND STRING");
                 internet_outage = true;
-                usleep(25000);
             }
-            Log->reset_last_offset();
-            string_list.clear();
+            usleep(25000);
             break;
           }
         }
