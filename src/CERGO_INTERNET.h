@@ -4,7 +4,7 @@
 #include <curl/curl.h>
 #include <iostream>
 #include "CLog.h"
-
+#include <mutex>          // std::mutex
 class CERGO_INTERNET
 {
 public:
@@ -23,6 +23,7 @@ public:
     }
 protected:
 private:
+    std::mutex mtx;           // mutex for critical section
     bool internet_outage;
     bool internet_connection;
     int internet_timeout;
