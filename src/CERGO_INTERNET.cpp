@@ -33,7 +33,7 @@ bool CERGO_INTERNET::send_string(const std::string & data_string)
           {
               Log->add("%s \n",sending_string.c_str());
           }
-          curl_easy_setopt(curl,CURLOPT_TIMEOUT,3);
+          curl_easy_setopt(curl,CURLOPT_TIMEOUT,10L);
           curl_easy_setopt(curl,CURLOPT_NOSIGNAL ,1L );
           curl_easy_setopt(curl,CURLOPT_FAILONERROR,1L );
 

@@ -26,6 +26,7 @@ CLog::CLog()
 {
   system("mkdir -p /etc/ERGO/");
   last_sent_line_get();
+  check_archive = true;
 }
 
 void CLog::data_add(std::string & date, std::string & time, std::string & unit_id, std::string & lat,std::string & lon,std::string & alt,std::string & nanoseconds)
@@ -62,36 +63,39 @@ void CLog::last_sent_line_save(std::streamoff ls)
 //this function loads the last line from the data file
 void CLog::archive_load(std::forward_list <std::string> &  data_list)
 {
-      std::string line;
-      std::ifstream data_in;
-      data_in.open( "/etc/ERGO/ERGO_DATA.csv");
-      for(int i=0 ;i < 100;i++)
+      if(check_archive)
       {
-          if(!data_in.eof())
-          {
-                      data_in.seekg(last_sent_line_get());
-                      data_in.clear();
-          }
-          else
-          {
-            return;
-          }
-
-            std::getline(data_in,line);
-            if(!line.empty())
+        std::string line;
+        std::ifstream data_in;
+        data_in.open( "/etc/ERGO/ERGO_DATA.csv");
+        for(int i=0 ;i < 100;i++)
+        {
+            if(!data_in.eof())
             {
-                data_list.emplace_after(data_list.before_begin(),line);
+                  data_in.seekg(last_sent_line_get());
+                  data_in.clear();
+            }
+            else
+            {
+              check_archive = false;
+              return;
             }
 
-          int g_int = data_in.tellg();
+              std::getline(data_in,line);
+              if(!line.empty())
+              {
+                  data_list.emplace_after(data_list.before_begin(),line);
+              }
 
-          if(g_int!=-1)
-          {
-            last_sent_line_save( g_int);
-          }
+            int g_int = data_in.tellg();
+
+            if(g_int!=-1)
+            {
+              last_sent_line_save( g_int);
+            }
+        }
+        data_in.close();
       }
-      data_in.close();
-
 }
 
 bool CLog::is_empty(std::ifstream& data_in)

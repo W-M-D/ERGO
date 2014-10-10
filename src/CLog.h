@@ -24,10 +24,14 @@ public:
     bool is_empty(std::ifstream& pFile);
 
     virtual ~CLog();
+    void set_check_archive(bool CHECK_ARCHIVE)
+    {
+      check_archive = CHECK_ARCHIVE;
+    }
 protected:
 private:
     CLog * Log;
-
+    bool check_archive;
 
 };
 
