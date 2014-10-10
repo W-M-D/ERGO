@@ -9,6 +9,8 @@ class CERGO_INTERNET
 {
 public:
     CERGO_INTERNET(int);
+    CERGO_INTERNET();
+
     bool send_string(const std::string & data_string);
     void manage_list();
     std::string URLEncode(const char*);

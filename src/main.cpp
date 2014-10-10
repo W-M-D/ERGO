@@ -43,6 +43,7 @@
 #include <unistd.h>
 #include <iomanip>
 #include "CLog.h"
+#include <thread>         // std::thread
 #include "CERGO_SERIAL.h"
 #include "CERGO_GPS.h"
 #include "CERGO_INTERNET.h"
@@ -60,6 +61,7 @@ int main(int argc, char *argv[])
     CLog * Log= new CLog; //inits the log
     CERGO_SERIAL Serial(DEBUG_LEVEL) ; // inits the Serial class
     CERGO_GPS GPS(DEBUG_LEVEL) ; // inits the GPS CLASS
+    CERGO_INTERNET * Internet = new CERGO_INTERNET(DEBUG_LEVEL); // inits the INTERNET class
 
     std::deque <uint8_t> test_list;
     int counter = 0;
@@ -71,13 +73,12 @@ int main(int argc, char *argv[])
 
     Serial.setval_gpio(1,24);
     Serial.serial_setup(1337);
-    CERGO_INTERNET Internet(DEBUG_LEVEL); // inits the INTERNET class
     std::deque <uint8_t> data_list; // list to store serial data
     std::stringstream test_string;
 
     while(true) // main management loop
     {
-        Internet.manage_list();
+        std::thread mythread((std::bind( &CERGO_INTERNET::manage_list, Internet)));
         counter = Serial.data_read(data_list); // checks for incomming data
         while(!data_list.empty())
         {
@@ -145,7 +146,7 @@ int main(int argc, char *argv[])
             }
         }
 
-        if(Internet.get_internet_availiable() )
+        if(Internet->get_internet_availiable() )
         {
             if(!internet_light_set)
             {

@@ -9,6 +9,14 @@ CERGO_INTERNET::CERGO_INTERNET(int debug_level)
     internet_connection = false;
 }
 
+CERGO_INTERNET::CERGO_INTERNET()
+{
+    DEBUG_LEVEL = 0;
+    MAX_INTERNET_TIMEOUT = 1000;
+    first_pass = true;
+    internet_outage = true;
+    internet_connection = false;
+}
 
 
 bool CERGO_INTERNET::send_string(const std::string & data_string)
