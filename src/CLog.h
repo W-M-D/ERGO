@@ -24,13 +24,12 @@ public:
     std::string get_time();
 
     bool is_empty(std::ifstream& pFile);
-
+    std::atomic<bool> check_archive;
     virtual ~CLog();
 
 protected:
 private:
     CLog * Log;
-    std::atomic<bool> check_archive;
     std::mutex check_archive_mute;           // mutex for critical section
 
 };
