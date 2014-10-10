@@ -11,63 +11,8 @@ CERGO_INTERNET::CERGO_INTERNET(int debug_level)
 
 
 
-int CERGO_INTERNET::internet_availiable(long internet_timer,bool internet_switch)
-{
-    CURL* curl;
-    CURLcode res;
-    curl = curl_easy_init();
-
-    if(curl)
-    {
-        curl_easy_setopt(curl,CURLOPT_CONNECTTIMEOUT,internet_timer);
-        curl_easy_setopt(curl,CURLOPT_FORBID_REUSE,1L);
-        curl_easy_setopt(curl,CURLOPT_CONNECT_ONLY ,1L);
-        curl_easy_setopt(curl, CURLOPT_URL, "data.ergotelescope.org");
-        while ((res = curl_easy_perform(curl)) != CURLE_OK)
-
-            if(res == CURLE_COULDNT_CONNECT)
-            {
-                curl_easy_cleanup(curl);
-                return 1;
-            }
-            else if (res ==CURLE_COULDNT_RESOLVE_HOST )
-            {
-                curl_easy_cleanup(curl);
-                return 2;
-            }
-            else if(res == CURLE_COULDNT_RESOLVE_PROXY)
-            {
-                curl_easy_cleanup(curl);
-                return 3;
-            }
-            else if (res == CURLE_OPERATION_TIMEDOUT)
-            {
-                curl_easy_cleanup(curl);
-                if(internet_connection&&internet_switch)
-                {
-                  if(internet_availiable(5L,false) == 0)
-                  {
-                    return 0;
-                  }
-                }
-                return 4;
-            }
-            else
-            {
-              curl_easy_cleanup(curl);
-              return 5;
-            }
-        curl_easy_cleanup(curl);
-        return 0;
-    }
-    curl_easy_cleanup(curl);
-    return 5;
-}
-
 bool CERGO_INTERNET::send_string(const std::string & data_string)
 {
-    if(internet_connection)
-    {
       CURL * curl;
       CURLcode res;
       curl = curl_easy_init();
@@ -81,6 +26,9 @@ bool CERGO_INTERNET::send_string(const std::string & data_string)
               Log->add("%s \n",sending_string.c_str());
           }
           curl_easy_setopt(curl,CURLOPT_TIMEOUT,3);
+          curl_easy_setopt(curl,CURLOPT_NOSIGNAL ,1L );
+          curl_easy_setopt(curl,CURLOPT_FAILONERROR,1L );
+
           curl_easy_setopt(curl, CURLOPT_URL, sending_string.c_str());
           /* Perform the request, res will get the return code */
           res = curl_easy_perform(curl);
@@ -97,103 +45,74 @@ bool CERGO_INTERNET::send_string(const std::string & data_string)
       }
     /* always cleanup */
       curl_easy_cleanup(curl);
-    }
-    return false;
-
+       return false;
 }
 
-void CERGO_INTERNET::reset_internet(clock_t & timer,int MAX_TIME)
-{
-    int test = 0;
-    if (((clock() - timer)/( CLOCKS_PER_SEC))>MAX_TIME)
-    {
-        if(DEBUG_LEVEL >= 1)
-        {
-            Log->add("RESTARTING WICD \n\n");
-        }
-        FILE * f = popen("service wicd restart", "r");
-        char Line[100];
-        usleep( 2 * 1000 );
-        while (fgets(Line, 100, f) != NULL)
-        {
-            if(DEBUG_LEVEL >= 1)
-            {
-                Log->add("%s",Line);
-            }
-            test = strncmp( "[ ok ]" ,Line,6);
-            if(test == 0)
-            {
-                timer = 0;
-                break;
-            }
-            else
-            {
-                if(DEBUG_LEVEL >= 1)
-                {
-                    Log->add("Test char diff  = %d \n " , test);
-                }
-                timer = 900;
-            }
-        }
-        pclose(f);
-    }
-}
+
 
 void CERGO_INTERNET::manage_list()
 {
         static std::forward_list <std::string> string_list;
-        int internet_int= internet_availiable(3L,true);
-        if(internet_int == 0)
+        if(!string_list.empty())
         {
-          if(internet_outage)
+          while(!string_list.empty())
           {
-            internet_connection = true;
-            Log->add("CONNECTION RESTORED");
-            internet_outage = false;
-          }
-          Log->archive_load(string_list);
-
-          for(int i=0 ; i < 5; i++)
-          {
-            if(!string_list.empty())
+            if(send_string(URLEncode(string_list.front().c_str()))) // calls the function that sends data to the server returns true on success
             {
-              if(send_string(URLEncode(string_list.front().c_str()))) // calls the function that sends data to the server returns true on success
+                if(DEBUG_LEVEL >= 1)
+                {
+                  Log->add("Sent string : %s" , string_list.front().c_str());
+                }
+                if(internet_outage)
+                {
+                  internet_connection = true;
+                  Log->add("CONNECTION RESTORED");
+                  internet_outage = false;
+                }
+              string_list.pop_front();// pops the first element
+            }
+            else
+            {
+              if(!internet_outage) // if the outage flag is not set
               {
-                  if(DEBUG_LEVEL >= 1)
-                  {
-                    Log->add("Sent string : %s" , string_list.front().c_str());
-                  }
-                  string_list.pop_front();// pops the first element
+                  internet_connection = false;
+                  Log->archive_load(string_list);
+                  Log->add("ERROR: COULD NOT SEND STRING");
+                  internet_outage = true;
               }
+              break;
             }
           }
         }
         else
         {
-          if(!internet_outage) // if the outage flag is not set
+          Log->archive_load(string_list);
+          while(!string_list.empty())
           {
-              internet_connection = false;
-              if(internet_int == 1)
+            if(send_string(URLEncode(string_list.front().c_str()))) // calls the function that sends data to the server returns true on success
+            {
+                if(DEBUG_LEVEL >= 1)
+                {
+                  Log->add("Sent string : %s" , string_list.front().c_str());
+                }
+                if(internet_outage)
+                {
+                  internet_connection = true;
+                  Log->add("CONNECTION RESTORED");
+                  internet_outage = false;
+                }
+              string_list.pop_front();// pops the first element
+            }
+            else
+            {
+              if(!internet_outage) // if the outage flag is not set
               {
-                Log->add("ERROR : INTERNET COULDNT_CONNECT "); //there is probably no connection to the server
+                  internet_connection = false;
+                  Log->archive_load(string_list);
+                  internet_outage = true;
               }
-              else if(internet_int == 2)
-              {
-                Log->add("ERROR :INTERNET COULDNT_RESOLVE_HOST "); //there is probably no connection to the server
-              }
-              else if(internet_int == 3)
-              {
-                Log->add("ERROR :INTERNET CURLE_COULDNT_RESOLVE_PROXY"); //there is probably no connection to the server
-              }
-              else if(internet_int == 4)
-              {
-                Log->add("ERROR :INTERNET TIMEOUT"); //there is probably no connection to the server
-              }
-              else if(internet_int == 5)
-              {
-                Log->add("ERROR :INTERNET UNKNOWN ERROR"); //there is probably no connection to the server
-              }
-              internet_outage = true;
+              break;
+            }
           }
         }
 }
