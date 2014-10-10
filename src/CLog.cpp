@@ -66,7 +66,7 @@ void CLog::archive_load(std::forward_list <std::string> &  data_list)
       check_archive_mute.lock();
       bool check_this_archive = check_archive;
       check_archive_mute.unlock();
-      if(check_archive)
+      if(check_this_archive)
       {
         std::string line;
         std::ifstream data_in;
