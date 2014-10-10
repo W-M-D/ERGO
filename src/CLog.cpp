@@ -26,7 +26,6 @@ CLog::CLog()
 {
   system("mkdir -p /etc/ERGO/");
   last_sent_line_get();
-  check_archive.store(true,std::memory_order_relaxed);
 }
 
 void CLog::data_add(std::string & date, std::string & time, std::string & unit_id, std::string & lat,std::string & lon,std::string & alt,std::string & nanoseconds)
@@ -34,7 +33,6 @@ void CLog::data_add(std::string & date, std::string & time, std::string & unit_i
   std::ofstream data_file;
   data_file.open("/etc/ERGO/ERGO_DATA.csv",std::ios_base::out | std::ios_base::app);
   data_file << date << ' ' << time << ' ' << unit_id << ' ' << lat << ' ' << lon << ' ' << alt << ' ' << nanoseconds << '\n';
-  check_archive.store(true,std::memory_order_relaxed);
   data_file.close();
 }
 
@@ -62,10 +60,8 @@ void CLog::last_sent_line_save(std::streamoff ls)
 
 
 //this function loads the last line from the data file
-void CLog::archive_load(std::forward_list <std::string> &  data_list)
+bool CLog::archive_load(std::forward_list <std::string> &  data_list)
 {
-      if(check_archive.load(std::memory_order_relaxed))
-      {
         std::string line;
         std::ifstream data_in;
         data_in.open( "/etc/ERGO/ERGO_DATA.csv");
@@ -78,8 +74,8 @@ void CLog::archive_load(std::forward_list <std::string> &  data_list)
             }
             else
             {
-              check_archive = false;
-              return;
+              data_in.close();
+              return false;
             }
 
               std::getline(data_in,line);
@@ -96,7 +92,7 @@ void CLog::archive_load(std::forward_list <std::string> &  data_list)
             }
         }
         data_in.close();
-      }
+        return true;
 }
 
 bool CLog::is_empty(std::ifstream& data_in)

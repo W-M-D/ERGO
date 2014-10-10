@@ -106,6 +106,7 @@ int main(int argc, char *argv[])
             {
                 Serial.setval_gpio(1,18);
                 GPS.packatize();
+                Internet->set_check_archive(true);
                 Serial.setval_gpio(0,18);
                 if(DEBUG_LEVEL >=3)
                 {

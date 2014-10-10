@@ -5,6 +5,7 @@ CERGO_INTERNET::CERGO_INTERNET(int debug_level)
     DEBUG_LEVEL = debug_level;
     MAX_INTERNET_TIMEOUT = 1000;
     first_pass = true;
+    check_archive = true;
     internet_outage = true;
     internet_connection = false;
 }
@@ -64,10 +65,10 @@ void CERGO_INTERNET::manage_list()
       {
         static std::forward_list <std::string> string_list;
         usleep(25000);
-        if(string_list.empty())
+        if(check_archive && string_list.empty())
         {
                 mtx.lock();
-                Log->archive_load(string_list);
+                check_archive = Log->archive_load(string_list);
                 mtx.unlock();
         }
         while(!string_list.empty())

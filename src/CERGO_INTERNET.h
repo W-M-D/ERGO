@@ -21,11 +21,16 @@ public:
     {
       return internet_connection;
     }
+    void set_check_archive(bool CHECK_ARCHIVE_BOOL)
+    {
+      check_archive = CHECK_ARCHIVE_BOOL;
+    }
 protected:
 private:
     std::mutex mtx;           // mutex for critical section
     bool internet_outage;
     bool internet_connection;
+    bool check_archive;
     int internet_timeout;
     bool first_pass;
     clock_t internet_timer;

@@ -16,7 +16,7 @@ public:
 
     void data_add(std::string &, std::string &, std::string &, std::string & ,std::string &,std::string &,std::string &);  //date, time, unit_id,  lat, on , alt, nanoseconds
     void archive_save(std::forward_list <std::string> &  );
-    void archive_load(std::forward_list <std::string> &  );
+    bool archive_load(std::forward_list <std::string> &  );
     std::streamoff last_sent_line_get();
     void last_sent_line_save(std::streamoff ls);
 
@@ -24,13 +24,11 @@ public:
     std::string get_time();
 
     bool is_empty(std::ifstream& pFile);
-    std::atomic<bool> check_archive;
     virtual ~CLog();
 
 protected:
 private:
     CLog * Log;
-    std::mutex check_archive_mute;           // mutex for critical section
 
 };
 
