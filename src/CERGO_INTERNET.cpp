@@ -66,7 +66,9 @@ void CERGO_INTERNET::manage_list()
         usleep(25000);
         if(string_list.empty())
         {
+                mtx.lock();
                 Log->archive_load(string_list);
+                mtx.unlock();
         }
         while(!string_list.empty())
         {
