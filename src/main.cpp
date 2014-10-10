@@ -78,7 +78,7 @@ int main(int argc, char *argv[])
 
     while(true) // main management loop
     {
-        std::thread internet_thread((std::bind( &CERGO_INTERNET::manage_list, Internet)));
+        std::thread internet_thread([&] { Internet->manage_list(); });
         internet_thread.detach();
         counter = Serial.data_read(data_list); // checks for incomming data
         while(!data_list.empty())
