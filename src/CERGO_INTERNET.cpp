@@ -63,9 +63,9 @@ void CERGO_INTERNET::manage_list()
         static std::forward_list <std::string> string_list;
         if(!string_list.empty())
         {
+          mtx.lock();
           while(!string_list.empty())
           {
-            mtx.lock();
             if(send_string(URLEncode(string_list.front().c_str()))) // calls the function that sends data to the server returns true on success
             {
                 if(DEBUG_LEVEL >= 1)
@@ -96,10 +96,10 @@ void CERGO_INTERNET::manage_list()
         }
         else
         {
+          mtx.lock();
           Log->archive_load(string_list);
           while(!string_list.empty())
           {
-            mtx.lock();
             if(send_string(URLEncode(string_list.front().c_str()))) // calls the function that sends data to the server returns true on success
             {
                 if(DEBUG_LEVEL >= 1)
