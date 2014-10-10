@@ -57,7 +57,13 @@ void CLog::last_sent_line_save(std::streamoff ls)
   data_file << ls;
   data_file.close();
 }
-
+void CLog::reset_last_offset()
+{
+  std::ofstream data_file;
+  data_file.open("/etc/ERGO/last_line");
+  data_file << last_offset;
+  data_file.close();
+}
 
 //this function loads the last line from the data file
 bool CLog::archive_load(std::forward_list <std::string> &  data_list)
@@ -65,7 +71,8 @@ bool CLog::archive_load(std::forward_list <std::string> &  data_list)
         std::string line;
         std::ifstream data_in;
         data_in.open( "/etc/ERGO/ERGO_DATA.csv");
-        for(int i=0 ;i < 100;i++)
+        last_offset = last_sent_line_get();
+        for(int i=0 ;i < 5;i++)
         {
             if(!data_in.eof())
             {
@@ -105,8 +112,6 @@ void CLog::add(const char * text , ...)
 {
     std::ofstream log_file;
     log_file.open ("/etc/ERGO/ERGO_LOG.log", std::ios_base::out | std::ios_base::app); //creates log
-
-
 
     va_list va_alist;  //formats log and places into buffer
     char log_buff[512] ;
