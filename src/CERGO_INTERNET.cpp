@@ -34,7 +34,7 @@ bool CERGO_INTERNET::send_string(const std::string & data_string)
           {
               Log->add("%s \n",sending_string.c_str());
           }
-          curl_easy_setopt(curl,CURLOPT_TIMEOUT,15L);
+          curl_easy_setopt(curl,CURLOPT_TIMEOUT,30L);
           curl_easy_setopt(curl,CURLOPT_NOSIGNAL ,1L );
           curl_easy_setopt(curl,CURLOPT_FAILONERROR,1L );
 
@@ -98,7 +98,7 @@ void CERGO_INTERNET::manage_list()
                 Log->add("ERROR: COULD NOT SEND STRING");
                 internet_outage = true;
             }
-            usleep(25000);
+            usleep(30000);
             break;
           }
         }
