@@ -17,7 +17,7 @@ public:
     void reset_internet(clock_t &, int );
     virtual ~CERGO_INTERNET();
 
-    int get_internet_availiable()
+    bool get_internet_availiable()
     {
       return internet_connection;
     }
@@ -29,8 +29,8 @@ protected:
 private:
     std::mutex mtx;           // mutex for critical section
     bool internet_outage;
-    bool internet_connection;
-    bool check_archive;
+    std::atomic<bool> internet_connection;
+    std::atomic<bool> check_archive;
     int internet_timeout;
     bool first_pass;
     clock_t internet_timer;
