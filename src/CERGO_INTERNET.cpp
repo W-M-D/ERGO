@@ -65,7 +65,7 @@ void CERGO_INTERNET::manage_list()
       string_list.emplace_front(" ");
       while(true)
       {
-        usleep(10000);
+        sleep(10);
         if(check_archive && string_list.empty())
         {
                 check_archive = Log->archive_load(string_list);
@@ -95,7 +95,7 @@ void CERGO_INTERNET::manage_list()
                 Log->add("ERROR: COULD NOT SEND STRING");
                 internet_outage = true;
             }
-            usleep(30000);
+            sleep(30);
             break;
           }
         }
