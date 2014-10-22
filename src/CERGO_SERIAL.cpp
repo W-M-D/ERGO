@@ -19,9 +19,9 @@ CERGO_SERIAL::CERGO_SERIAL(int debug_level)
     {
         sleep(60);
     }
-    export_gpio(24);//LEFT
-    export_gpio(23);//MIDDLE
-    export_gpio(18);//RIGHT CLOSEST TO GEIGER COUNTER
+    export_gpio(GREEN_LEFT);//LEFT
+    export_gpio(YELLOW_MIDDLE);//MIDDLE
+    export_gpio(RED_RIGHT);//RIGHT CLOSEST TO GEIGER COUNTER
 }
 
 bool CERGO_SERIAL::serial_init(int baud)
@@ -333,8 +333,6 @@ bool CERGO_SERIAL::getUBX_ACK(int *MSG)
         // Check that bytes arrive in sequence as per expected ACK packet
         while(!data_list.empty())
         {
-
-
         if(ackByteID > 9)
         {
             break;
@@ -366,9 +364,9 @@ bool CERGO_SERIAL::getUBX_ACK(int *MSG)
 
 CERGO_SERIAL::~CERGO_SERIAL()
 {
-    unexport_gpio(18);
-    unexport_gpio(23);
-    unexport_gpio(24);
+    unexport_gpio(GREEN_LEFT);
+    unexport_gpio(YELLOW_MIDDLE);
+    unexport_gpio(RED_RIGHT);
     Log->add("closing %d",tty_fd);
     close(tty_fd);
 }

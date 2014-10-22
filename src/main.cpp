@@ -48,6 +48,7 @@
 #include "CERGO_GPS.h"
 #include "CERGO_INTERNET.h"
 
+void print_list(std::deque <uint8_t> ,std::string );
 
 
 int main(int argc, char *argv[])
@@ -59,101 +60,91 @@ int main(int argc, char *argv[])
     }
 
     CLog * Log= new CLog; //inits the log
-    CERGO_SERIAL Serial(DEBUG_LEVEL) ; // inits the Serial class
-    CERGO_GPS GPS(DEBUG_LEVEL) ; // inits the GPS CLASS
+    CERGO_SERIAL * Serial = new CERGO_SERIAL(DEBUG_LEVEL) ; // inits the Serial class
+    CERGO_GPS * GPS = new CERGO_GPS(DEBUG_LEVEL); // inits the GPS CLASS
     CERGO_INTERNET * Internet = new CERGO_INTERNET(DEBUG_LEVEL); // inits the INTERNET class
 
+    Log ->add("\n############################################################ \n\n \t\t ERGO-PIXLE RESTARTED \n\n############################################################ \n ");
     std::deque <uint8_t> test_list;
-    int counter = 0;
     int data_int = 0;
     bool internet_light_set = false;
 
-    //Adds restarted message to log
-    Log ->add("\n############################################################ \n\n \t\t ERGO-PIXLE RESTARTED \n\n############################################################ \n ");
+    int LIGHT_TIMER = 50;
+    int SLEEP_TIMER = 150;
+    enum light_colours_t{RED_RIGHT = 24,YELLOW_MIDDLE= 23,GREEN_LEFT=18};
+    enum data_type_t{BAD_DATA,INSUFFICIENT_DATA,TIME_DATA,POS_DATA,FIX_DATA};
+    enum debug_level_t{LOW=1,MEDIUM,HIGH};
 
-    Serial.setval_gpio(1,24);
-    Serial.serial_setup(1337);
+    //Adds restarted message to log
+
+    Serial->setval_gpio(true,RED_RIGHT);
+    Serial->serial_setup(1337);
+
     std::deque <uint8_t> data_list; // list to store serial data
     std::stringstream test_string;
     std::thread ([&] { Internet->manage_list(); }).detach();
 
     while(true) // main management loop
     {
-        usleep(200);
-        counter = Serial.data_read(data_list); // checks for incomming data
+        usleep(SLEEP_TIMER);
+        Serial->data_read(data_list); // checks and reads incomming data
         while(!data_list.empty())
         {
-            if(DEBUG_LEVEL >= 2)
+            if(DEBUG_LEVEL >= MEDIUM)
             {
                 test_list = data_list;
             }
-            data_int =GPS.Read_data(data_list);
-             if(data_int == 5)
+            data_int = GPS->Read_data(data_list);
+             if(data_int == FIX_DATA)
             {
-                if(DEBUG_LEVEL >=2)
+                if(DEBUG_LEVEL >= MEDIUM)
                 {
                     printf("fix data\n");
                 }
             }
-            if(data_int == 4)
+            if(data_int == POS_DATA)
             {
-                if(DEBUG_LEVEL >=2)
+                if(DEBUG_LEVEL >= MEDIUM)
                 {
                     printf("POS DATA\n");
                 }
             }
-            else if( data_int == 3)//sends the serial data to be parsed
+            else if( data_int == TIME_DATA)//sends the serial data to be parsed
             {
-                Serial.setval_gpio(1,18);
-                GPS.packatize();
+                Serial->setval_gpio(true,GREEN_LEFT);
+                GPS->packatize();
                 Internet->set_check_archive(true);
-                Serial.setval_gpio(0,18);
-                if(DEBUG_LEVEL >=3)
+                usleep(LIGHT_TIMER);
+                Serial->setval_gpio(false,GREEN_LEFT);
+
+                if(DEBUG_LEVEL >= HIGH)
                 {
-                    printf("Good data!");
-                    while(!test_list.empty())
-                    {
-                        printf("0x%X ",test_list.front());
-                        test_list.pop_front();
-                    }
-                    printf("\n\n");
+                    print_list(test_list,"Good data!");
                 }
             }
-            else if(data_int == 2)
+            else if(data_int == INSUFFICIENT_DATA)
             {
-                if(DEBUG_LEVEL >=3)
+                if(DEBUG_LEVEL >= HIGH)
                 {
-                    printf("Not enough data!");
-                    while(!test_list.empty())
-                    {
-                        printf("0x%X ",test_list.front());
-                        test_list.pop_front();
-                    }
-                    printf("\n\n");
+                    print_list(test_list,"Not enough data!");
                 }
                 break;
             }
-            else if (data_int == 0)
+            else if (data_int == BAD_DATA)
             {
-                if(DEBUG_LEVEL >=3)
+                if(DEBUG_LEVEL >= HIGH)
                 {
-                    printf("Bad checksum!");
-                    while(!test_list.empty())
-                    {
-                        printf("0x%X ",test_list.front());
-                        test_list.pop_front();
-                    }
-                    printf("\n\n");
+                    print_list(test_list,"Bad checksum!");
                 }
             }
         }
 
-        if(Internet->get_internet_availiable() )
+        if(Internet->get_internet_availiable())
         {
             if(!internet_light_set)
             {
                 internet_light_set =true;
-                Serial.setval_gpio(1,23);
+                Serial->setval_gpio(true,YELLOW_MIDDLE);
             }
         }
         else
@@ -161,10 +152,20 @@ int main(int argc, char *argv[])
             if(internet_light_set)
             {
                 internet_light_set= false;
-                Serial.setval_gpio(0,23);
+                Serial->setval_gpio(false,YELLOW_MIDDLE);
             }
         }
 
     }
 }
 
+void print_list(std::deque <uint8_t> print_list,std::string type)
+{
+    printf("%s",type.c_str());
+    while(!print_list.empty())
+    {
+        printf("0x%X ",print_list.front());
+        print_list.pop_front();
+    }
+    printf("\n\n");
+}
