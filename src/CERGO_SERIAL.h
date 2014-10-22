@@ -38,7 +38,7 @@ public:
     int setdir_gpio(int gpionum);
     int setval_gpio(int val,int gpionum);
     int getval_gpio(int gpionum);
-
+    enum light_colours_t{RED_RIGHT = 24,YELLOW_MIDDLE= 23,GREEN_LEFT=18};
 
 
     virtual ~CERGO_SERIAL();
