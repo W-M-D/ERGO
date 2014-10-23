@@ -66,7 +66,7 @@ void CERGO_INTERNET::manage_list()
       while(true)
       {
         sleep(10);
-        if(check_archive && string_list.empty())
+        if(check_archive)
         {
                 check_archive = Log->archive_load(string_list);
                 while(!string_list.empty())
