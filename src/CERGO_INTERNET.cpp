@@ -65,39 +65,38 @@ void CERGO_INTERNET::manage_list()
       string_list.emplace_front(" ");
       while(true)
       {
-        sleep(10);
         if(check_archive && string_list.empty())
         {
                 check_archive = Log->archive_load(string_list);
-        }
-        while(!string_list.empty())
-        {
-          if(send_string(URLEncode(string_list.front().c_str()))) // calls the function that sends data to the server returns true on success
-          {
-              if(DEBUG_LEVEL >= 1)
-              {
-                Log->add("Sent string : %s" , string_list.front().c_str());
-              }
-              if(internet_outage)
-              {
-                internet_connection = true;
-                Log->add("CONNECTION RESTORED");
-                internet_outage = false;
-              }
-            string_list.pop_front();// pops the first element
-          }
-          else
-          {
-            if(!internet_outage) // if the outage flag is not set
-            {
-                internet_connection = false;
-                Log->archive_load(string_list);
-                Log->add("ERROR: COULD NOT SEND STRING");
-                internet_outage = true;
-            }
-            sleep(30);
-            break;
-          }
+                while(!string_list.empty())
+                {
+                  if(send_string(URLEncode(string_list.front().c_str()))) // calls the function that sends data to the server returns true on success
+                  {
+                      if(DEBUG_LEVEL >= 1)
+                      {
+                        Log->add("Sent string : %s" , string_list.front().c_str());
+                      }
+                      if(internet_outage)
+                      {
+                        internet_connection = true;
+                        Log->add("CONNECTION RESTORED");
+                        internet_outage = false;
+                      }
+                    string_list.pop_front();// pops the first element
+                  }
+                  else
+                  {
+                    if(!internet_outage) // if the outage flag is not set
+                    {
+                        internet_connection = false;
+                        Log->archive_load(string_list);
+                        Log->add("ERROR: COULD NOT SEND STRING");
+                        internet_outage = true;
+                    }
+                    sleep(30);
+                    break;
+                  }
+                }
         }
       }
 }

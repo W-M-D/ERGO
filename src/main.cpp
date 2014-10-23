@@ -22,10 +22,6 @@
 
 
 
-
-
-
-
 #include <forward_list>
 #include <stdio.h>
 #include <thread>         // std::thread
@@ -86,7 +82,6 @@ int main(int argc, char *argv[])
 
     while(true) // main management loop
     {
-        usleep(SLEEP_TIMER);
         Serial->data_read(data_list); // checks and reads incomming data
         while(!data_list.empty())
         {
