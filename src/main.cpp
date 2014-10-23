@@ -133,7 +133,6 @@ int main(int argc, char *argv[])
                 }
             }
         }
-
         if(Internet->get_internet_availiable())
         {
             if(!internet_light_set)
@@ -150,7 +149,6 @@ int main(int argc, char *argv[])
                 Serial->setval_gpio(false,YELLOW_MIDDLE);
             }
         }
-
     }
 }
 

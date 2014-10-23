@@ -55,7 +55,7 @@ bool CERGO_SERIAL::serial_init(int baud)
         tio.c_cflag &= ~CSTOPB;// one stop bit
 
         tio.c_lflag=0;
-        tio.c_cc[VMIN]=5;
+        tio.c_cc[VMIN]=30;
         tio.c_cc[VTIME]=v_time;
 
         tty_fd=open(portName, O_RDWR |O_NONBLOCK);
