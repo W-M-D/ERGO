@@ -65,6 +65,7 @@ void CERGO_INTERNET::manage_list()
       string_list.emplace_front(" ");
       while(true)
       {
+        sleep(10);
         if(check_archive && string_list.empty())
         {
                 check_archive = Log->archive_load(string_list);
