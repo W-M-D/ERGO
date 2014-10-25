@@ -54,7 +54,7 @@ int main(int argc, char *argv[])
     {
         DEBUG_LEVEL = atoi(argv[1]);
     }
-
+    std::this_thread::sleep_for (std::chrono::seconds(1));
     CLog * Log= new CLog; //inits the log
     CERGO_SERIAL * Serial = new CERGO_SERIAL(DEBUG_LEVEL) ; // inits the Serial class
     CERGO_GPS * GPS = new CERGO_GPS(DEBUG_LEVEL); // inits the GPS CLASS
@@ -97,7 +97,7 @@ int main(int argc, char *argv[])
                     printf("fix data\n");
                 }
             }
-            if(data_int == POS_DATA)
+            else if(data_int == POS_DATA)
             {
                 if(DEBUG_LEVEL >= MEDIUM)
                 {
@@ -133,6 +133,7 @@ int main(int argc, char *argv[])
                 }
             }
         }
+
         if(Internet->get_internet_availiable())
         {
             if(!internet_light_set)

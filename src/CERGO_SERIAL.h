@@ -14,8 +14,7 @@
 #include <forward_list>
 #include <deque>
 #include <sys/poll.h>
-
-
+#include <sys/ioctl.h>
 
 
 class CERGO_SERIAL

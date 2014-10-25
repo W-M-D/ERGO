@@ -3,6 +3,8 @@
 #include <stdio.h>
 #include <curl/curl.h>
 #include <iostream>
+#include <thread>         // std::this_thread::sleep_for
+#include <chrono>         // std::chrono::seconds
 #include "CLog.h"
 #include <mutex>          // std::mutex
 class CERGO_INTERNET

@@ -100,16 +100,13 @@ int CERGO_SERIAL::data_read (std::deque <uint8_t> & data_list)
         {
           if( POLLIN)
           {
-            uint8_t buff[1024];
-            memset(buff, 0, sizeof(buff));
-            ssize_t rc = read(tty_fd, &buff, sizeof(buff) );
-            if (rc > 0)
+            int bytes_avail = 0;
+            ioctl(tty_fd, FIONREAD, &bytes_avail);
+            for(int i = 0; i < bytes_avail;i++)
             {
-                for(unsigned int x = 0;x < (rc/sizeof(char)) ;x++)
-                {
-                        data_list.emplace_back(buff[x]);
-                }
-                return rc;
+                uint8_t read_byte = 0;
+                read(tty_fd, &read_byte,1);
+                data_list.emplace_back(read_byte);
             }
         }
         }
